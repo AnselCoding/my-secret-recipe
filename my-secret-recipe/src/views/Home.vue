@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <Header></Header>
+    <Expiring></Expiring>
     <Tools></Tools>
     <Food></Food>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
@@ -14,6 +15,7 @@ import Header from '@/components/Header.vue'
 import HelloWorld from '@/components/HelloWorld.vue'
 import Tools from '../components/Tools.vue';
 import Food from '../components/Food.vue';
+import Expiring from '../components/Expiring.vue';
 
 export default {
   name: 'Home',
@@ -21,7 +23,8 @@ export default {
     Header,
     HelloWorld,
     Tools,
-    Food
-}
+    Food,
+    Expiring
+  }
 }
 </script>

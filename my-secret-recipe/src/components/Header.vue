@@ -1,11 +1,11 @@
 <template>
     <v-sheet :height="sheetHeight">
         <v-container class="fill-height black">
-            <v-row :align="center" justify="center">
-                <h1 class="white--text font-italic font-weight-black text-center display-3 hidden-xs-only">
+            <v-row justify="center">
+                <h1 class="white--text font-italic font-weight-black display-3 hidden-xs-only">
                     My Secret Recipe
                 </h1>
-                <h1 class="white--text font-italic font-weight-black text-center display-1 hidden-sm-and-up">
+                <h1 class="white--text font-italic font-weight-black display-1 hidden-sm-and-up">
                     My Secret Recipe
                 </h1>
             </v-row>

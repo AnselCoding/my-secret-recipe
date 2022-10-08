@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-app-bar app color="#575757" dark>
-            <v-toolbar-tittle class="font-italic font-weight-black">My Secret Recipe</v-toolbar-tittle>
+            <v-toolbar-title class="font-italic font-weight-black">My Secret Recipe</v-toolbar-title>
 
             <v-toolbar-items class="hidden-xs-only">
                 <v-btn v-for="item in items" :key="item.title" text>
