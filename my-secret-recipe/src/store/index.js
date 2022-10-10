@@ -10,6 +10,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    brand:"My Secret Recipe",
     tools,
     food,
     recipesM,

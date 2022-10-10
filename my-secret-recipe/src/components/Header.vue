@@ -3,10 +3,10 @@
         <v-container class="fill-height black">
             <v-row justify="center">
                 <h1 class="white--text font-italic font-weight-black display-3 hidden-xs-only">
-                    My Secret Recipe
+                    {{$store.state.brand}}
                 </h1>
                 <h1 class="white--text font-italic font-weight-black display-1 hidden-sm-and-up">
-                    My Secret Recipe
+                    {{$store.state.brand}}
                 </h1>
             </v-row>
         </v-container>
