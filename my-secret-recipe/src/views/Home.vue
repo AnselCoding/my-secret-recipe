@@ -4,6 +4,7 @@
     <Expiring></Expiring>
     <Tools></Tools>
     <Food></Food>
+    <Recipes></Recipes>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
@@ -16,6 +17,7 @@ import HelloWorld from '@/components/HelloWorld.vue'
 import Tools from '../components/Tools.vue';
 import Food from '../components/Food.vue';
 import Expiring from '../components/Expiring.vue';
+import Recipes from '../components/Recipes.vue';
 
 export default {
   name: 'Home',
@@ -24,7 +26,8 @@ export default {
     HelloWorld,
     Tools,
     Food,
-    Expiring
-  }
+    Expiring,
+    Recipes
+}
 }
 </script>
