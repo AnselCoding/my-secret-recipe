@@ -1,20 +1,20 @@
 <template>
     <div>
         <v-app-bar app color="#575757" dark>
-            <v-toolbar-title class="font-italic font-weight-black">My Secret Recipe</v-toolbar-title>
+            <v-toolbar-title class="font-italic font-weight-black pr-4">{{$store.state.brand}}</v-toolbar-title>
 
             <v-toolbar-items class="hidden-xs-only">
-                <v-btn v-for="item in items" :key="item.title" text>
+                <v-btn :href="item.id" v-for="item in items" :key="item.title" text>
                     {{item.title}}
 
                 </v-btn>
 
                 <!-- <v-btn to="/" text>
-          home
-        </v-btn>
-        <v-btn to="/about" text>
-          about
-        </v-btn> -->
+                home
+                </v-btn>
+                <v-btn to="/about" text>
+                about
+                </v-btn> -->
 
             </v-toolbar-items>
             <v-spacer></v-spacer>
@@ -24,18 +24,18 @@
 
             <!-- <v-spacer></v-spacer>
 
-      <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn> -->
+            <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
+                <span class="mr-2">Latest Release</span>
+                <v-icon>mdi-open-in-new</v-icon>
+            </v-btn> -->
         </v-app-bar>
-        <v-navigation-drawer v-model="drawer" absolute temporary right>
+        <v-navigation-drawer v-model="drawer" fixed temporary right>
             <v-list>
-                <v-list-item v-for="item in items" :key="item.title" link>
+                <v-list-item :href="item.id" v-for="item in items" :key="item.title" link>
                     {{item.title}}
                     <!-- <v-list-item-content>
-            <v-list-item-title></v-list-item-title>
-          </v-list-item-content> -->
+                        <v-list-item-title></v-list-item-title>
+                    </v-list-item-content> -->
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
@@ -50,9 +50,9 @@ export default {
     data: () => ({
         drawer: false,
         items: [
-            { title: "Tools" },
-            { title: "Food" },
-            { title: "Recipes" },
+            { title: "Tools", id: "#tools" },
+            { title: "Food", id: "#food" },
+            { title: "Recipes", id: "#recipes" },
         ]
         //
     }),

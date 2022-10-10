@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container id="tools">
         <v-row>
             <v-col sm="10" offset-sm="1" md="8" offset-md="2">
                 <h3>用具清單 | Tools</h3>
