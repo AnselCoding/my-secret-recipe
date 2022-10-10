@@ -31,3 +31,18 @@ export default {
 }
 }
 </script>
+
+<style>
+  .v-img--reveal {
+      align-items: center;
+      bottom: 0;
+      justify-content: center;
+      opacity: .8;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+  }
+  .containerBGC{
+    background-color: #E8DFDF;
+  }
+  </style>
