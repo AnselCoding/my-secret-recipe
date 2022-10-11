@@ -25,7 +25,8 @@
                 </v-row>
             </v-col>
         </v-row>
-        <ToolsDialog :newTool="newTool" :dialog="dialog" :edit="edit" :onEditSave="onEditSave" :onEditTools="onEditTools" :onRetiredTools="onRetiredTools" :onCloseDialog="onCloseDialog"></ToolsDialog>
+        <ToolsDialog :newTool="newTool" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
+            :onEditTools="onEditTools" :onRetiredTools="onRetiredTools" :onCloseDialog="onCloseDialog"></ToolsDialog>
     </v-container>
 </template>
 
@@ -40,44 +41,44 @@ export default {
         tool: {}, // choosen item
         newTool: {}, // deep copy for edit
     }),
-    computed:{
+    computed: {
         tools() {
             // get a list of tools which are online
-            return this.$store.state.tools.filter(x=>x.status=="onLine");
+            return this.$store.state.tools.filter(x => x.status == "onLine");
         },
         today() {
             // for record retired date
             let date = new Date();
-            let today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+            let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
             return today;
         }
     },
     methods: {
-        dialogTrue(){
+        dialogTrue() {
             this.dialog = true;
         },
-        async onShowDialog(tool) {            
+        async onShowDialog(tool) {
             await this.dialogTrue(); // show dialog
             this.tool = tool; // record choosen item
             // show data at dialog
             document.getElementById('showToolName').innerHTML = tool.name;
             document.getElementById('showToolPurchaseDate').innerHTML = tool.purchaseDate;
         },
-        onEditSave(){
+        onEditSave() {
             // locate the item
-            let index = this.newTool.id-1;
+            let index = this.newTool.id - 1;
             // change store data
             this.$store.state.tools[index].name = this.newTool.name;
             this.$store.state.tools[index].purchaseDate = this.newTool.purchaseDate;
             this.onCloseDialog();
         },
-        onEditTools(){
+        onEditTools() {
             this.edit = true; // show edit mode
             this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for edit
         },
-        onRetiredTools(){
+        onRetiredTools() {
             // locate the item
-            let index = this.tool.id-1;
+            let index = this.tool.id - 1;
             // change store data to retired status
             this.$store.state.tools[index].status = "retired";
             this.$store.state.tools[index].retiredDate = this.today;

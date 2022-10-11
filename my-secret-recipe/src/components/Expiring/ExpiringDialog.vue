@@ -14,8 +14,8 @@
                         <v-menu v-model="menu" :close-on-content-click="false" :nudge-right="40"
                             transition="scale-transition" offset-y min-width="auto">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-text-field v-model="newItem.purchaseDate" label="購買日期"
-                                    readonly v-bind="attrs" v-on="on"></v-text-field>
+                                <v-text-field v-model="newItem.purchaseDate" label="購買日期" readonly v-bind="attrs"
+                                    v-on="on"></v-text-field>
                             </template>
                             <v-date-picker v-model="newItem.purchaseDate" @input="menu = false"></v-date-picker>
                         </v-menu>
@@ -24,8 +24,8 @@
                         <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40"
                             transition="scale-transition" offset-y min-width="auto">
                             <template v-slot:activator="{ on, attrs }">
-                                <v-text-field v-model="newItem.expiryDate" label="有效日期"
-                                    readonly v-bind="attrs" v-on="on"></v-text-field>
+                                <v-text-field v-model="newItem.expiryDate" label="有效日期" readonly v-bind="attrs"
+                                    v-on="on"></v-text-field>
                             </template>
                             <v-date-picker v-model="newItem.expiryDate" @input="menu2 = false"></v-date-picker>
                         </v-menu>

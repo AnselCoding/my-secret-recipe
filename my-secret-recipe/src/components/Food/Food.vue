@@ -40,23 +40,23 @@ export default {
         item: {}, // choosen item
         newItem: {}, // deep copy for edit
     }),
-    computed:{
+    computed: {
         food() {
             // get a list of food which is online
-            return this.$store.state.food.filter(x=>x.status=="onLine");
+            return this.$store.state.food.filter(x => x.status == "onLine");
         },
         today() {
             // for record retired date
             let date = new Date();
-            let today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+            let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
             return today;
         }
     },
     methods: {
-        dialogTrue(){
+        dialogTrue() {
             this.dialog = true;
         },
-        async onShowDialog(item) {            
+        async onShowDialog(item) {
             await this.dialogTrue(); // show dialog
             this.item = item; // record choosen item
             // show data at dialog
@@ -64,22 +64,22 @@ export default {
             document.getElementById('showFoodPurchaseDate').innerHTML = item.purchaseDate;
             document.getElementById('showFoodExpiryDate').innerHTML = item.expiryDate;
         },
-        onEditSave(){
+        onEditSave() {
             // locate the item
-            let index = this.newItem.id-1;
+            let index = this.newItem.id - 1;
             // change store data
             this.$store.state.food[index].name = this.newItem.name;
             this.$store.state.food[index].purchaseDate = this.newItem.purchaseDate;
             this.$store.state.food[index].expiryDate = this.newItem.expiryDate;
             this.onCloseDialog();
         },
-        onEditFood(){
+        onEditFood() {
             this.edit = true; // show edit mode
             this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
         },
-        onRetiredFood(){
+        onRetiredFood() {
             // locate the item
-            let index = this.item.id-1;
+            let index = this.item.id - 1;
             // change store data to retired status
             this.$store.state.food[index].status = "retired";
             this.$store.state.food[index].retiredDate = this.today;
