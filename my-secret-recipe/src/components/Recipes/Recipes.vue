@@ -13,9 +13,17 @@
                             <div class="recipesStartEnd">It all starts from here</div>
                         </v-img>
                         <v-sheet v-for="(recipe, i) in recipesOdd">
-                            <v-img aspect-ratio="1.5" :src="recipe.headPic">
-                                <div class="pl-5 pt-5 recipeTitle">{{recipe.name}}</div>
-                            </v-img>
+                            <a @click.stop="onShowDialog(recipe)">
+                                <v-img aspect-ratio="1.5" :src="recipe.headPic">
+                                    <div class="pl-5 pt-5 recipeTitle">{{recipe.name}}</div>
+                                    <template v-slot:placeholder>
+                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                            <v-progress-circular indeterminate color="grey">
+                                            </v-progress-circular>
+                                        </v-row>
+                                    </template>
+                                </v-img>
+                            </a>
                         </v-sheet>
                         <v-img v-show="isEndLeft" aspect-ratio="3">
                             <div class="recipesStartEnd">End for now</div>
@@ -23,9 +31,17 @@
                     </v-col>
                     <v-col class="pl-0" cols="12" sm="6">
                         <v-sheet v-for="(recipe, i) in recipesEven">
-                            <v-img aspect-ratio="1.5" :src="recipe.headPic">
-                                <div class="pl-5 pt-5 recipeTitle">{{recipe.name}}</div>
-                            </v-img>
+                            <a @click.stop="onShowDialog(recipe)">
+                                <v-img aspect-ratio="1.5" :src="recipe.headPic">
+                                    <div class="pl-5 pt-5 recipeTitle">{{recipe.name}}</div>
+                                    <template v-slot:placeholder>
+                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                            <v-progress-circular indeterminate color="grey">
+                                            </v-progress-circular>
+                                        </v-row>
+                                    </template>
+                                </v-img>
+                            </a>
                         </v-sheet>
                         <v-img v-show="!isEndLeft" aspect-ratio="3">
                             <div class="recipesStartEnd">End for now</div>
@@ -34,13 +50,20 @@
                 </v-row>
             </v-col>
         </v-row>
+
+        <v-dialog v-model="dialog" scrollable max-width="800px">
+            <RecipesDialog :recipe="recipe" :dialog="dialog"></RecipesDialog>
+        </v-dialog>
     </v-container>
 </template>
 <script>
+import RecipesDialog from './RecipesDialog.vue';
 export default {
-    name: 'Recipes',
+    name: "Recipes",
+    components: { RecipesDialog },
     data: () => ({
-        //
+        dialog: false,
+        recipe: {}
     }),
     computed: {
         recipesEven() {
@@ -48,19 +71,29 @@ export default {
             for (let index = 0; index < this.$store.state.recipesM.length; index = index + 2) {
                 Even.push(this.$store.state.recipesM[index]);
             }
-            return Even
+            return Even;
         },
         recipesOdd() {
             var Odd = [];
             for (let index = 1; index < this.$store.state.recipesM.length; index = index + 2) {
                 Odd.push(this.$store.state.recipesM[index]);
             }
-            return Odd
+            return Odd;
         },
         isEndLeft() {
-            return this.recipesOdd < this.recipesEven
+            return this.recipesOdd < this.recipesEven;
         }
+    },
+    methods: {
+        dialogTrue() {
+            this.dialog = true;
+        },
+        async onShowDialog(recipe) {
+            await this.dialogTrue(); // show dialog
+            this.recipe = recipe; // record choosen item
+        },
     }
+
 }
 </script>
 
@@ -71,7 +104,7 @@ export default {
     -webkit-text-stroke: .5px black;
 }
 
- .recipesStartEnd {
+.recipesStartEnd {
     height: 100%;
     background-color: #575757;
     color: white;
