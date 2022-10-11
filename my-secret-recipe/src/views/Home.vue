@@ -14,10 +14,10 @@
 // @ is an alias to /src
 import Header from '@/components/Header.vue'
 import HelloWorld from '@/components/HelloWorld.vue'
-import Tools from '../components/Tools.vue';
-import Food from '../components/Food.vue';
-import Expiring from '../components/Expiring.vue';
-import Recipes from '../components/Recipes.vue';
+import Tools from '../components/Tools/Tools.vue';
+import Food from '../components/Food/Food.vue';
+import Expiring from '../components/Expiring/Expiring.vue';
+import Recipes from '../components/Recipes/Recipes.vue';
 
 export default {
   name: 'Home',
