@@ -37,22 +37,23 @@ export default {
     name: "Expiring",
     components: { ExpiringDialog },
     data: () => ({
-        todayDate: new Date(),
-        dialog: false,
-        edit: false,
-        item: {},
-        newItem: {},
+        todayDate: new Date(), //to check if item is expired
+        dialog: false, //show dialog when it's true
+        edit: false, //show edit mode when it's true
+        item: {}, // choosen item
+        newItem: {}, // deep copy for edit
     }),
     computed: {
         expiring() {
             // food expired in a month
             let beforeAMonth = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth() + 1, this.todayDate.getDate());
             let expirings = this.$store.state.food.filter(x => beforeAMonth > new Date(x.expiryDate));
-            // food online
+            // get a list of food which is online
             expirings = expirings.filter(x => x.status == "onLine");
             return expirings;
         },
         today() {
+            // for record retired date
             let date = new Date();
             let today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
             return today;
@@ -62,29 +63,33 @@ export default {
         dialogTrue(){
             this.dialog = true;
         },
-        async onShowDialog(item) {            
-            await this.dialogTrue();
-            this.item = item;
+        async onShowDialog(item) {
+            await this.dialogTrue(); // show dialog
+            this.item = item; // record choosen item
+            // show data at dialog
             document.getElementById('showExpiringName').innerHTML = item.name;
             document.getElementById('showExpiringPurchaseDate').innerHTML = item.purchaseDate;
             document.getElementById('showExpiringExpiryDate').innerHTML = item.expiryDate;
         },
         onEditSave(){
+            // locate the item
             let index = this.newItem.id-1;
+            // change store data
             this.$store.state.food[index].name = this.newItem.name;
             this.$store.state.food[index].purchaseDate = this.newItem.purchaseDate;
             this.$store.state.food[index].expiryDate = this.newItem.expiryDate;
             this.onCloseDialog();
         },
         onEditExpiring(){
-            this.edit = true;
-            this.newItem = JSON.parse(JSON.stringify(this.item));
+            this.edit = true; // show edit mode
+            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
         },
         onRetiredExpiring(){
+            // locate the item
             let index = this.item.id-1;
+            // change store data to retired status
             this.$store.state.food[index].status = "retired";
             this.$store.state.food[index].retiredDate = this.today;
-            console.log(this.today);
             this.onCloseDialog();
         },
         onCloseDialog() {

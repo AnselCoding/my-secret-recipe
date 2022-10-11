@@ -64,6 +64,7 @@ export default {
         onCloseDialog: Function,
     },
     data: () => ({
+        // for datepicker
         menu: false,
     }),
 }

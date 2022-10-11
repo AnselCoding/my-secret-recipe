@@ -35,16 +35,18 @@ export default {
     name: "Tools",
     components: { ToolsDialog },
     data: () => ({
-        dialog: false,
-        edit: false,
-        tool: {},
-        newTool: {},
+        dialog: false, //show dialog when it's true
+        edit: false, //show edit mode when it's true
+        tool: {}, // choosen item
+        newTool: {}, // deep copy for edit
     }),
     computed:{
         tools() {
+            // get a list of tools which are online
             return this.$store.state.tools.filter(x=>x.status=="onLine");
         },
         today() {
+            // for record retired date
             let date = new Date();
             let today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
             return today;
@@ -55,26 +57,30 @@ export default {
             this.dialog = true;
         },
         async onShowDialog(tool) {            
-            await this.dialogTrue();
-            this.tool = tool;
+            await this.dialogTrue(); // show dialog
+            this.tool = tool; // record choosen item
+            // show data at dialog
             document.getElementById('showToolName').innerHTML = tool.name;
             document.getElementById('showToolPurchaseDate').innerHTML = tool.purchaseDate;
         },
         onEditSave(){
+            // locate the item
             let index = this.newTool.id-1;
+            // change store data
             this.$store.state.tools[index].name = this.newTool.name;
             this.$store.state.tools[index].purchaseDate = this.newTool.purchaseDate;
             this.onCloseDialog();
         },
         onEditTools(){
-            this.edit = true;
-            this.newTool = JSON.parse(JSON.stringify(this.tool));
+            this.edit = true; // show edit mode
+            this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for edit
         },
         onRetiredTools(){
+            // locate the item
             let index = this.tool.id-1;
+            // change store data to retired status
             this.$store.state.tools[index].status = "retired";
             this.$store.state.tools[index].retiredDate = this.today;
-            console.log(this.today);
             this.onCloseDialog();
         },
         onCloseDialog() {
