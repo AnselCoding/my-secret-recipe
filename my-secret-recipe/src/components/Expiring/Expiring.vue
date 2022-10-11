@@ -10,34 +10,86 @@
                 <v-row>
                     <v-col class="pa-2" cols="12" sm="6" md="4" v-for="(item, i) in expiring">
                         <v-hover v-slot="{ hover }">
+                            <a @click.stop="onShowDialog(item)">
                             <v-img aspect-ratio="2" :src="item.pic">
                                 <v-expand-transition>
-                                    <div v-if="hover || today > new Date(item.expiryDate)"
-                                        :class="{'font-weight-bold text-h6 red--text': today > new Date(item.expiryDate)}"
+                                    <div v-if="hover || todayDate > new Date(item.expiryDate)"
+                                        :class="{'font-weight-bold text-h6 red--text': todayDate > new Date(item.expiryDate)}"
                                         class="d-flex transition-fast-in-fast-out grey darken-2 v-img--reveal white--text flex-column">
                                         <span>{{item.name}}</span>
                                         <span>{{item.expiryDate}}</span>
                                     </div>
                                 </v-expand-transition>
                             </v-img>
+                            </a>
                         </v-hover>
                     </v-col>
                 </v-row>
             </v-col>
         </v-row>
+        <ExpiringDialog :newItem="newItem" :dialog="dialog" :edit="edit" :onEditSave="onEditSave" :onEditExpiring="onEditExpiring"
+            :onRetiredExpiring="onRetiredExpiring" :onCloseDialog="onCloseDialog"></ExpiringDialog>
     </v-container>
 </template>
 <script>
+import ExpiringDialog from './ExpiringDialog.vue';
 export default {
-    name: 'Expiring',
+    name: "Expiring",
+    components: { ExpiringDialog },
     data: () => ({
-        today: new Date(),
+        todayDate: new Date(),
+        dialog: false,
+        edit: false,
+        item: {},
+        newItem: {},
     }),
     computed: {
         expiring() {
-            let beforeAMonth = new Date(this.today.getFullYear(), this.today.getMonth() + 1, this.today.getDate())
-            var expirings = this.$store.state.food.filter(x => beforeAMonth > new Date(x.expiryDate));
+            // food expired in a month
+            let beforeAMonth = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth() + 1, this.todayDate.getDate());
+            let expirings = this.$store.state.food.filter(x => beforeAMonth > new Date(x.expiryDate));
+            // food online
+            expirings = expirings.filter(x => x.status == "onLine");
             return expirings;
+        },
+        today() {
+            let date = new Date();
+            let today = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+            return today;
+        }
+    },
+    methods: {
+        dialogTrue(){
+            this.dialog = true;
+        },
+        async onShowDialog(item) {            
+            await this.dialogTrue();
+            this.item = item;
+            document.getElementById('showExpiringName').innerHTML = item.name;
+            document.getElementById('showExpiringPurchaseDate').innerHTML = item.purchaseDate;
+            document.getElementById('showExpiringExpiryDate').innerHTML = item.expiryDate;
+        },
+        onEditSave(){
+            let index = this.newItem.id-1;
+            this.$store.state.food[index].name = this.newItem.name;
+            this.$store.state.food[index].purchaseDate = this.newItem.purchaseDate;
+            this.$store.state.food[index].expiryDate = this.newItem.expiryDate;
+            this.onCloseDialog();
+        },
+        onEditExpiring(){
+            this.edit = true;
+            this.newItem = JSON.parse(JSON.stringify(this.item));
+        },
+        onRetiredExpiring(){
+            let index = this.item.id-1;
+            this.$store.state.food[index].status = "retired";
+            this.$store.state.food[index].retiredDate = this.today;
+            console.log(this.today);
+            this.onCloseDialog();
+        },
+        onCloseDialog() {
+            this.dialog = false;
+            this.edit = false;
         }
     }
 }
