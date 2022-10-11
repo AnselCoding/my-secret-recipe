@@ -85,11 +85,8 @@ export default {
         }
     },
     methods: {
-        dialogTrue() {
+        onShowDialog(recipe) {
             this.dialog = true;
-        },
-        async onShowDialog(recipe) {
-            await this.dialogTrue(); // show dialog
             this.recipe = recipe; // record choosen item
         },
     }

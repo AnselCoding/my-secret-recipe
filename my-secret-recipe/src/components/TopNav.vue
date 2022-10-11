@@ -3,7 +3,7 @@
         <v-app-bar app color="#575757" dark>
             <v-toolbar-title class="font-italic font-weight-black pr-4">{{$store.state.brand}}</v-toolbar-title>
 
-            <v-toolbar-items class="hidden-xs-only">
+            <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn :href="item.id" v-for="item in items" :key="item.title" text>
                     {{item.title}}
 
@@ -15,10 +15,21 @@
                 <v-btn to="/about" text>
                 about
                 </v-btn> -->
-
             </v-toolbar-items>
             <v-spacer></v-spacer>
-            <span class="hidden-sm-and-up">
+
+            <v-col class="pt-7 pr-0">
+                <v-autocomplete dense v-model="recipeName" @keypress.enter="onSearch" :items="recipesName">
+                </v-autocomplete>
+            </v-col>
+            <v-col cols="1">
+                <v-btn @click="onSearch" icon>
+                    <v-icon>mdi-magnify</v-icon>
+                </v-btn>
+            </v-col>
+
+            <v-spacer class="hidden-md-and-up"></v-spacer>
+            <span class="hidden-md-and-up">
                 <v-btn @click.stop="drawer = !drawer" text>Menu</v-btn>
             </span>
 
@@ -39,22 +50,55 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
+        <v-dialog v-model="dialog" scrollable max-width="800px">
+            <RecipesDialog id="aa" :recipe="recipe" :dialog="dialog"></RecipesDialog>
+        </v-dialog>
     </div>
 </template>
 
 <script>
+import RecipesDialog from './Recipes/RecipesDialog.vue'
 
 export default {
     name: 'TopNav',
-
+    components: { RecipesDialog },
     data: () => ({
         drawer: false,
         items: [
             { title: "Tools", id: "#tools" },
             { title: "Food", id: "#food" },
             { title: "Recipes", id: "#recipes" },
-        ]
-        //
+        ],
+        recipeName: "",
+        dialog: false,
+        recipe: {}
     }),
+    computed: {
+        recipesName() {
+            let recipesName = [];
+            for (const recipeM of this.$store.state.recipesM) {
+                recipesName.push(recipeM.name);
+            }
+            return recipesName;
+        }
+    },
+    methods: {
+        onSearch() {
+            this.recipe = this.$store.state.recipesM.find(x => x.name == this.recipeName);
+            if(this.recipe){
+                this.dialog = true;
+            }
+            // document.getElementById("aa").scrollIntoView(true);
+            // document.getElementById("aa").scrollTop=0;
+            // await console.log(document.getElementById("aa"));
+            // this.$vuetify.goTo(0)
+            // const scrollOptions = {
+            //     left: 0,
+            //     top: 0,
+            //     behavior: 'smooth'
+            // }
+            // document.getElementById("aa").scrollTo(scrollOptions);
+        }
+    }
 };
 </script>
