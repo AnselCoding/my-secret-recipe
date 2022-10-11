@@ -50,8 +50,8 @@
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
-        <v-dialog v-model="dialog" scrollable max-width="800px">
-            <RecipesDialog id="aa" :recipe="recipe" :dialog="dialog"></RecipesDialog>
+        <v-dialog id="aa" v-model="dialog" scrollable max-width="800px">
+            <RecipesDialog :recipe="recipe" :dialog="dialog"></RecipesDialog>
         </v-dialog>
     </div>
 </template>
@@ -90,7 +90,10 @@ export default {
             }
             // document.getElementById("aa").scrollIntoView(true);
             // document.getElementById("aa").scrollTop=0;
-            // await console.log(document.getElementById("aa"));
+            // console.log(document.getElementById("aa").scrollTop);
+            console.log(document.getElementById("aa").scrollTop);
+            document.getElementById("aa").scrollTop=50;
+            // console.log(document.querySelector("＃aa").scrollTop);
             // this.$vuetify.goTo(0)
             // const scrollOptions = {
             //     left: 0,
