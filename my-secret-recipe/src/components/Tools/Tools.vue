@@ -18,6 +18,12 @@
                                             {{tool.name}}
                                         </div>
                                     </v-expand-transition>
+                                    <template v-slot:placeholder>
+                                        <v-row class="fill-height ma-0" align="center" justify="center">
+                                            <v-progress-circular indeterminate color="grey lighten-5">
+                                            </v-progress-circular>
+                                        </v-row>
+                                    </template>
                                 </v-img>
                             </a>
                         </v-hover>
@@ -41,7 +47,7 @@ export default {
         edit: false, // show edit mode when it's true
         tool: {}, // choosen item
         newTool: {}, // deep copy for edit
-        snackbar: { 
+        snackbar: {
             snackbar: false, // show snackbar when it's true
             snackbarText: '', // snackbar message
             timeout: 2000 // duration
