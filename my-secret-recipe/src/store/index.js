@@ -11,6 +11,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     brand:"My Secret Recipe",
+    editText:"完成修改!",
+    retiredText:"完成刪除!",
     tools,
     food,
     recipesM,

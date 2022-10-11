@@ -25,8 +25,9 @@
                 </v-row>
             </v-col>
         </v-row>
-        <ToolsDialog :newTool="newTool" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
+        <ToolsDialog :snackbar="snackbar" :newTool="newTool" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
             :onEditTools="onEditTools" :onRetiredTools="onRetiredTools" :onCloseDialog="onCloseDialog"></ToolsDialog>
+
     </v-container>
 </template>
 
@@ -36,10 +37,15 @@ export default {
     name: "Tools",
     components: { ToolsDialog },
     data: () => ({
-        dialog: false, //show dialog when it's true
-        edit: false, //show edit mode when it's true
+        dialog: false, // show dialog when it's true
+        edit: false, // show edit mode when it's true
         tool: {}, // choosen item
         newTool: {}, // deep copy for edit
+        snackbar: { 
+            snackbar: false, // show snackbar when it's true
+            snackbarText: '', // snackbar message
+            timeout: 2000 // duration
+        },
     }),
     computed: {
         tools() {
@@ -71,6 +77,10 @@ export default {
             this.$store.state.tools[index].name = this.newTool.name;
             this.$store.state.tools[index].purchaseDate = this.newTool.purchaseDate;
             this.onCloseDialog();
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.editText;
+            this.snackbar.snackbar = true;
         },
         onEditTools() {
             this.edit = true; // show edit mode
@@ -83,6 +93,10 @@ export default {
             this.$store.state.tools[index].status = "retired";
             this.$store.state.tools[index].retiredDate = this.today;
             this.onCloseDialog();
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.retiredText;
+            this.snackbar.snackbar = true;
         },
         onCloseDialog() {
             this.dialog = false;

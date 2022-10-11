@@ -27,7 +27,7 @@
                 </v-row>
             </v-col>
         </v-row>
-        <ExpiringDialog :newItem="newItem" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
+        <ExpiringDialog :snackbar="snackbar" :newItem="newItem" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
             :onEditExpiring="onEditExpiring" :onRetiredExpiring="onRetiredExpiring" :onCloseDialog="onCloseDialog">
         </ExpiringDialog>
     </v-container>
@@ -38,11 +38,16 @@ export default {
     name: "Expiring",
     components: { ExpiringDialog },
     data: () => ({
-        todayDate: new Date(), //to check if item is expired
-        dialog: false, //show dialog when it's true
-        edit: false, //show edit mode when it's true
+        todayDate: new Date(), // to check if item is expired
+        dialog: false, // show dialog when it's true
+        edit: false, // show edit mode when it's true
         item: {}, // choosen item
         newItem: {}, // deep copy for edit
+        snackbar: {
+            snackbar: false, // show snackbar when it's true
+            snackbarText: '', // snackbar message
+            timeout: 2000 // duration
+        },
     }),
     computed: {
         expiring() {
@@ -80,6 +85,10 @@ export default {
             this.$store.state.food[index].purchaseDate = this.newItem.purchaseDate;
             this.$store.state.food[index].expiryDate = this.newItem.expiryDate;
             this.onCloseDialog();
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.editText;
+            this.snackbar.snackbar = true;
         },
         onEditExpiring() {
             this.edit = true; // show edit mode
@@ -92,6 +101,10 @@ export default {
             this.$store.state.food[index].status = "retired";
             this.$store.state.food[index].retiredDate = this.today;
             this.onCloseDialog();
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.retiredText;
+            this.snackbar.snackbar = true;
         },
         onCloseDialog() {
             this.dialog = false;

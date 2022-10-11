@@ -25,7 +25,7 @@
                 </v-row>
             </v-col>
         </v-row>
-        <FoodDialog :newItem="newItem" :dialog="dialog" :edit="edit" :onEditSave="onEditSave" :onEditFood="onEditFood"
+        <FoodDialog :snackbar="snackbar" :newItem="newItem" :dialog="dialog" :edit="edit" :onEditSave="onEditSave" :onEditFood="onEditFood"
             :onRetiredFood="onRetiredFood" :onCloseDialog="onCloseDialog"></FoodDialog>
     </v-container>
 </template>
@@ -39,6 +39,11 @@ export default {
         edit: false, //show edit mode when it's true
         item: {}, // choosen item
         newItem: {}, // deep copy for edit
+        snackbar: { 
+            snackbar: false, // show snackbar when it's true
+            snackbarText: '', // snackbar message
+            timeout: 2000 // duration
+        },
     }),
     computed: {
         food() {
@@ -72,6 +77,10 @@ export default {
             this.$store.state.food[index].purchaseDate = this.newItem.purchaseDate;
             this.$store.state.food[index].expiryDate = this.newItem.expiryDate;
             this.onCloseDialog();
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.editText;
+            this.snackbar.snackbar = true;
         },
         onEditFood() {
             this.edit = true; // show edit mode
@@ -84,6 +93,10 @@ export default {
             this.$store.state.food[index].status = "retired";
             this.$store.state.food[index].retiredDate = this.today;
             this.onCloseDialog();
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.retiredText;
+            this.snackbar.snackbar = true;
         },
         onCloseDialog() {
             this.dialog = false;
