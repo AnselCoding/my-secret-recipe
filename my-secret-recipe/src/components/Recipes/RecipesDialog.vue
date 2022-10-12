@@ -6,11 +6,16 @@
                 <v-col class="pa-0" cols="12" sm="6">
                     <v-img aspect-ratio="1.2" :src="recipe.headPic"></v-img>
                 </v-col>
-                <v-col class="pt-5" cols="12" sm="6">
+                <v-col class="pt-5 d-flex flex-column" cols="12" sm="6">
                     <div>
                         <h2>{{recipe.name}}</h2>
-                        <p>{{recipe.description}}</p>
+                        <p v-html="recipe.description"></p>
                     </div>
+                    <v-row>
+                        <v-col class="d-flex justify-end">
+                            <v-btn @click="onRetiredRecipe" class="mt-auto" small outlined color="indigo">刪除</v-btn>
+                        </v-col>
+                    </v-row>
                 </v-col>
             </v-row>
             <v-row>
@@ -80,7 +85,7 @@ export default {
         // edit: Boolean,
         // onEditSave: Function,
         // onEditFood: Function,
-        // onRetiredFood: Function,
+        onRetiredRecipe: Function,
         // onCloseDialog: Function,
     },
     data: () => ({

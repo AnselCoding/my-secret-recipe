@@ -55,8 +55,16 @@
         </v-row>
 
         <v-dialog v-model="dialog" scrollable max-width="800px">
-            <RecipesDialog :recipe="recipe" :dialog="dialog"></RecipesDialog>
+            <RecipesDialog :recipe="recipe" :dialog="dialog" :onRetiredRecipe="onRetiredRecipe"></RecipesDialog>
         </v-dialog>
+        <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
+            {{ snackbar.snackbarText }}
+            <template v-slot:action="{ attrs }">
+                <v-btn color="blue" text v-bind="attrs" @click="snackbar.snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </v-container>
 </template>
 <script>
@@ -66,25 +74,39 @@ export default {
     components: { RecipesDialog },
     data: () => ({
         dialog: false,
-        recipe: {}
+        recipe: {},
+        snackbar: {
+            snackbar: false, // show snackbar when it's true
+            snackbarText: '', // snackbar message
+            timeout: 2000 // duration
+        },
     }),
     computed: {
+        recipesM() {
+            return this.$store.state.recipesM.filter(x=>x.status=="onLine");
+        },
         recipesEven() {
             var Even = [];
-            for (let index = 0; index < this.$store.state.recipesM.length; index = index + 2) {
-                Even.push(this.$store.state.recipesM[index]);
+            for (let index = 0; index < this.recipesM.length; index = index + 2) {
+                Even.push(this.recipesM[index]);
             }
             return Even;
         },
         recipesOdd() {
             var Odd = [];
-            for (let index = 1; index < this.$store.state.recipesM.length; index = index + 2) {
-                Odd.push(this.$store.state.recipesM[index]);
+            for (let index = 1; index < this.recipesM.length; index = index + 2) {
+                Odd.push(this.recipesM[index]);
             }
             return Odd;
         },
         isEndLeft() {
             return this.recipesOdd < this.recipesEven;
+        },
+        today() {
+            // for record retired date
+            let date = new Date();
+            let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+            return today;
         }
     },
     methods: {
@@ -92,6 +114,21 @@ export default {
             this.dialog = true;
             this.recipe = recipe; // record choosen item
         },
+        onRetiredRecipe() {
+            // locate the item
+            let index = this.recipe.id - 1;
+            // change store data to retired status
+            this.$store.state.recipesM[index].status = "retired";
+            this.$store.state.recipesM[index].retiredDate = this.today;
+            this.onCloseDialog();
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.retiredText;
+            this.snackbar.snackbar = true;
+        },
+        onCloseDialog() {
+            this.dialog = false;
+        }
     }
 
 }

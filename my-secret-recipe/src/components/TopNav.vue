@@ -51,8 +51,16 @@
             </v-list>
         </v-navigation-drawer>
         <v-dialog id="aa" v-model="dialog" scrollable max-width="800px">
-            <RecipesDialog :recipe="recipe" :dialog="dialog"></RecipesDialog>
+            <RecipesDialog :recipe="recipe" :dialog="dialog" :onRetiredRecipe="onRetiredRecipe"></RecipesDialog>
         </v-dialog>
+        <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
+            {{ snackbar.snackbarText }}
+            <template v-slot:action="{ attrs }">
+                <v-btn color="blue" text v-bind="attrs" @click="snackbar.snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
     </div>
 </template>
 
@@ -71,12 +79,20 @@ export default {
         ],
         recipeName: "",
         dialog: false,
-        recipe: {}
+        recipe: {},
+        snackbar: {
+            snackbar: false, // show snackbar when it's true
+            snackbarText: '', // snackbar message
+            timeout: 2000 // duration
+        },
     }),
     computed: {
+        recipesM() {
+            return this.$store.state.recipesM.filter(x=>x.status=="onLine");
+        },
         recipesName() {
             let recipesName = [];
-            for (const recipeM of this.$store.state.recipesM) {
+            for (const recipeM of this.recipesM) {
                 recipesName.push(recipeM.name);
             }
             return recipesName;
@@ -91,8 +107,8 @@ export default {
             // document.getElementById("aa").scrollIntoView(true);
             // document.getElementById("aa").scrollTop=0;
             // console.log(document.getElementById("aa").scrollTop);
-            console.log(document.getElementById("aa").scrollTop);
-            document.getElementById("aa").scrollTop=50;
+            // console.log(document.getElementById("aa").scrollTop);
+            // document.getElementById("aa").scrollTop=50;
             // console.log(document.querySelector("＃aa").scrollTop);
             // this.$vuetify.goTo(0)
             // const scrollOptions = {
@@ -101,6 +117,23 @@ export default {
             //     behavior: 'smooth'
             // }
             // document.getElementById("aa").scrollTo(scrollOptions);
+        },
+        onRetiredRecipe() {
+            // locate the item
+            let index = this.recipe.id - 1;
+            // change store data to retired status
+            this.$store.state.recipesM[index].status = "retired";
+            this.$store.state.recipesM[index].retiredDate = this.today;
+            this.onCloseDialog();
+            this.recipeName="";
+            this.recipe={};
+
+            // show snackbar
+            this.snackbar.snackbarText = this.$store.state.retiredText;
+            this.snackbar.snackbar = true;
+        },
+        onCloseDialog() {
+            this.dialog = false;
         }
     }
 };
