@@ -1,5 +1,5 @@
 <template>
-    <v-container class="containerBGC" id="recipes">
+    <v-container class="containerBGC pb-6" id="recipes">
         <v-row>
             <v-col sm="10" offset-sm="1" md="8" offset-md="2">
                 <h3>食譜筆記 | Recipes</h3>

@@ -1,5 +1,5 @@
 <template>
-    <v-container class="containerBGC" id="food">
+    <v-container class="containerBGC pb-6" id="food">
         <v-row>
             <v-col sm="10" offset-sm="1" md="8" offset-md="2">
                 <h3>食品清單 | Food</h3>
