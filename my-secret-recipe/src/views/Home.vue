@@ -4,6 +4,7 @@
     <Expiring></Expiring>
     <Tools></Tools>
     <Food></Food>
+    <Carousel></Carousel>
     <Recipes></Recipes>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
@@ -18,6 +19,7 @@ import Tools from '../components/Tools/Tools.vue';
 import Food from '../components/Food/Food.vue';
 import Expiring from '../components/Expiring/Expiring.vue';
 import Recipes from '../components/Recipes/Recipes.vue';
+import Carousel from '../components/Recipes/Carousel.vue';
 
 export default {
   name: 'Home',
@@ -27,7 +29,8 @@ export default {
     Tools,
     Food,
     Expiring,
-    Recipes
+    Recipes,
+    Carousel
 }
 }
 </script>

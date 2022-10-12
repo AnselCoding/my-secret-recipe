@@ -5,6 +5,7 @@ import food from './food'
 import recipesM from './recipesM'
 import ingredients from './ingredients'
 import recipesD from './recipesD'
+import carousel from './carousel'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     food,
     recipesM,
     ingredients,
-    recipesD
+    recipesD,
+    carousel
   },
   mutations: {
   },
