@@ -53,7 +53,7 @@ export default {
     color: white;
 }
 
-.v-application a:hover {
+.carouselCard a:hover {
     color: blue;
 }
 </style>
