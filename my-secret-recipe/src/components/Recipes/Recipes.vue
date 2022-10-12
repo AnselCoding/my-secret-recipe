@@ -8,14 +8,14 @@
         <v-row>
             <v-col sm="10" offset-sm="1" md="8" offset-md="2">
                 <v-row>
-                    <v-col class="pr-0" cols="12" sm="6">
+                    <v-col class="pr-0 pa-0" cols="12" sm="6">
                         <v-img aspect-ratio="3">
-                            <div class="recipesStartEnd">It all starts from here</div>
+                            <h3 class="recipesStartEnd">It all starts from here</h3>
                         </v-img>
                         <v-sheet v-for="(recipe, i) in recipesOdd">
                             <a @click.stop="onShowDialog(recipe)">
                                 <v-img aspect-ratio="1.5" :src="recipe.headPic">
-                                    <div class="pl-5 pt-5 recipeTitle">{{recipe.name}}</div>
+                                    <h1 class="pl-5 pt-5 recipeTitle">{{recipe.name}}</h1>
                                     <template v-slot:placeholder>
                                         <v-row class="fill-height ma-0" align="center" justify="center">
                                             <v-progress-circular indeterminate color="grey">
@@ -25,15 +25,15 @@
                                 </v-img>
                             </a>
                         </v-sheet>
-                        <v-img v-show="isEndLeft" aspect-ratio="3">
-                            <div class="recipesStartEnd">End for now</div>
+                        <v-img v-show="isEndLeft" aspect-ratio="3" class=" hidden-xs-only">
+                            <h3 class="recipesStartEnd">End for now</h3>
                         </v-img>
                     </v-col>
-                    <v-col class="pl-0" cols="12" sm="6">
+                    <v-col class="pl-0 pa-0" cols="12" sm="6">
                         <v-sheet v-for="(recipe, i) in recipesEven">
                             <a @click.stop="onShowDialog(recipe)">
                                 <v-img aspect-ratio="1.5" :src="recipe.headPic">
-                                    <div class="pl-5 pt-5 recipeTitle">{{recipe.name}}</div>
+                                    <h1 class="pl-5 pt-5 recipeTitle">{{recipe.name}}</h1>
                                     <template v-slot:placeholder>
                                         <v-row class="fill-height ma-0" align="center" justify="center">
                                             <v-progress-circular indeterminate color="grey">
@@ -44,7 +44,10 @@
                             </a>
                         </v-sheet>
                         <v-img v-show="!isEndLeft" aspect-ratio="3">
-                            <div class="recipesStartEnd">End for now</div>
+                            <h3 class="recipesStartEnd hidden-xs-only">End for now</h3>
+                        </v-img>
+                        <v-img aspect-ratio="3">
+                            <h3 class="recipesStartEnd hidden-sm-and-up">End for now</h3>
                         </v-img>
                     </v-col>
                 </v-row>
