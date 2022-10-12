@@ -5,7 +5,7 @@
                 <h3>食譜筆記 | Recipes</h3>
             </v-col>
         </v-row>
-        <v-row>
+        <v-row class="pb-5">
             <v-col sm="10" offset-sm="1" md="8" offset-md="2">
                 <v-row>
                     <v-col class="pr-0 pa-0" cols="12" sm="6">
@@ -43,11 +43,11 @@
                                 </v-img>
                             </a>
                         </v-sheet>
-                        <v-img v-show="!isEndLeft" aspect-ratio="3">
-                            <h3 class="recipesStartEnd hidden-xs-only">End for now</h3>
+                        <v-img v-show="!isEndLeft" aspect-ratio="3" class="hidden-xs-only">
+                            <h3 class="recipesStartEnd">End for now</h3>
                         </v-img>
-                        <v-img aspect-ratio="3">
-                            <h3 class="recipesStartEnd hidden-sm-and-up">End for now</h3>
+                        <v-img aspect-ratio="3" class="hidden-sm-and-up">
+                            <h3 class="recipesStartEnd">End for now</h3>
                         </v-img>
                     </v-col>
                 </v-row>
