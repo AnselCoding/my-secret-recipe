@@ -55,7 +55,7 @@
         </v-row>
 
         <v-dialog v-model="dialog" scrollable max-width="800px">
-            <RecipesDialog :recipe="recipe" :dialog="dialog" :onRetiredRecipe="onRetiredRecipe"></RecipesDialog>
+            <RecipesDialog :dialogTopId="dialogTopId" :recipe="recipe" :dialog="dialog" :onRetiredRecipe="onRetiredRecipe"></RecipesDialog>
         </v-dialog>
         <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
             {{ snackbar.snackbarText }}
@@ -80,6 +80,7 @@ export default {
             snackbarText: '', // snackbar message
             timeout: 2000 // duration
         },
+        dialogTopId: "dialogRecipes" // the top of dialog
     }),
     computed: {
         recipesM() {
@@ -113,6 +114,8 @@ export default {
         onShowDialog(recipe) {
             this.dialog = true;
             this.recipe = recipe; // record choosen item
+            // locate the top of dialog
+            location.href = "#dialogRecipes";
         },
         onRetiredRecipe() {
             // locate the item

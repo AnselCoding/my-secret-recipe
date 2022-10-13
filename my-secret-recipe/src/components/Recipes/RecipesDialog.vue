@@ -3,7 +3,7 @@
         <v-card-title></v-card-title>
         <v-card-text style="height: 700px;">
             <v-row class="headerText pa-0">
-                <v-col class="pa-0" cols="12" sm="6">
+                <v-col :id="dialogTopId" class="pa-0" cols="12" sm="6">
                     <v-img aspect-ratio="1.2" :src="recipe.headPic"></v-img>
                 </v-col>
                 <v-col class="pt-5 d-flex flex-column" cols="12" sm="6">
@@ -87,6 +87,7 @@ export default {
         // onEditFood: Function,
         onRetiredRecipe: Function,
         // onCloseDialog: Function,
+        dialogTopId: String
     },
     data: () => ({
         // for datepicker
