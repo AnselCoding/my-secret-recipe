@@ -71,9 +71,12 @@ export default {
             await this.dialogTrue(); // show dialog
             this.item = item; // record choosen item
             // show data at dialog
-            document.getElementById('showFoodName').innerHTML = item.name;
-            document.getElementById('showFoodPurchaseDate').innerHTML = item.purchaseDate;
-            document.getElementById('showFoodExpiryDate').innerHTML = item.expiryDate;
+            $("#showFoodName").text(item.name);
+            $("#showFoodPurchaseDate").text(item.purchaseDate);
+            $("#showFoodExpiryDate").text(item.expiryDate);
+            // document.getElementById('showFoodName').innerHTML = item.name;
+            // document.getElementById('showFoodPurchaseDate').innerHTML = item.purchaseDate;
+            // document.getElementById('showFoodExpiryDate').innerHTML = item.expiryDate;
         },
         onEditSave() {
             // locate the item
