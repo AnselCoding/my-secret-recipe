@@ -8,3 +8,30 @@ export default [
     {id:7, status:"onLine", name:"鹽巴", purchaseDate:"2021-09-22", expiryDate:"2022-11-23",retiredDate:"", pic:require("../assets/food/salt.jpg")},
     {id:8, status:"onLine", name:"玫瑰鹽", purchaseDate:"2022-09-22", expiryDate:"2023-09-23",retiredDate:"", pic:require("../assets/food/rose_salt.jpg")},
 ];
+
+// -- 與Tools table 格式確認
+// -- Create the table in the specified schema
+// CREATE TABLE [dbo].[Food]
+// (
+//     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
+//     [Status] NVARCHAR(50) NOT NULL,
+//     [Name] NVARCHAR(50) NOT NULL,
+//     [PurchaseDate] NVARCHAR(50) NOT NULL,
+//     [ExpiryDate] NVARCHAR(50) NOT NULL,
+//     [RetiredDate] NVARCHAR(50) NULL,
+//     [Pic] NVARCHAR(50) NOT NULL
+//     -- Specify more columns here
+// );
+// GO
+
+// -- Insert rows into table 'Food' in schema '[dbo]'
+// INSERT INTO [dbo].[Food]
+// ( -- Columns to insert data into
+//  [Status], [Name], [PurchaseDate], [ExpiryDate], [RetiredDate], [Pic]
+// )
+// VALUES
+// ( -- First row: values for the columns in the list above
+//  'onLine', '醬油', '2021-09-22','2022-10-23',null,'../assets/food/soy_sauce.jpg'
+// )
+// -- Add more rows here
+// GO

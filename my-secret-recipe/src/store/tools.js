@@ -6,3 +6,17 @@ export default [
     { id: 5, status: "onLine", name: "攪拌機", purchaseDate: "2021-06-15", retiredDate: "", pic:require("../assets/tools/blender.jpg") },
     { id: 6, status: "onLine", name: "果汁機", purchaseDate: "2021-04-21", retiredDate: "", pic:require("../assets/tools/juicer.jpg") },
 ];
+
+//
+
+// -- Insert rows into table 'Tools' in schema '[dbo]'
+// INSERT INTO [dbo].[Tools]
+// ( -- Columns to insert data into
+//  [Status], [Name], [PurchaseDate], [RetiredDate], [Pic]
+// )
+// VALUES
+// ( -- First row: values for the columns in the list above
+//  'onLine', '平底鍋', '2021-09-22',null,'../assets/tools/pan.jpg'
+// )
+// -- Add more rows here
+// GO

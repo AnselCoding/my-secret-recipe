@@ -38,3 +38,28 @@ export default [
     {id:33, recipeId:5, name:"蔥", amount: "適量"},
     {id:34, recipeId:5, name:"糖", amount: "1小匙"},
 ]
+
+// -- Create the table in the specified schema
+// CREATE TABLE [dbo].[Ingredients]
+// (
+//     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
+//     [RecipeId] INT NOT NULL,
+//     [Name] NVARCHAR(50) NOT NULL,
+//     [Amount] NVARCHAR(30) NOT NULL,
+//     -- Specify more columns here
+// );
+// GO
+
+// -- Insert rows into table 'Ingredients' in schema '[dbo]'
+// INSERT INTO [dbo].[Ingredients]
+// ( -- Columns to insert data into
+//  [Id], [RecipeId], [Name], [Amount]
+// )
+// VALUES
+// ( -- First row: values for the columns in the list above
+//  1,
+//  '酪梨', 
+//  '1顆'
+// )
+// -- Add more rows here
+// GO
