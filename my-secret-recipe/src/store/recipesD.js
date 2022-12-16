@@ -28,3 +28,29 @@ export default [
     {recipeId:5, step:6, description:"待櫛瓜呈透明時，放入蛤蜊煮開。", pic:require("../assets/recipes/韓式大醬湯_step_6.jpg")},
     {recipeId:5, step:7, description:"最後加入剩餘的1/3蔥花即可熄火上桌。", pic:require("../assets/recipes/韓式大醬湯_step_7.jpg")},
 ]
+
+// -- Create the table in the specified schema
+// CREATE TABLE [dbo].[RecipesM]
+// (
+//     [RecipeId] INT NOT NULL PRIMARY KEY, -- Primary Key column
+//     [Step] INT NOT NULL  PRIMARY KEY,
+//     [Description] NVARCHAR(MAX) NOT NULL,
+//     [Pic] NVARCHAR(100) NOT NULL,
+//     -- Specify more columns here
+// );
+// GO
+
+// -- Insert rows into table 'RecipesM' in schema '[dbo]'
+// INSERT INTO [dbo].[RecipesM]
+// ( -- Columns to insert data into
+//   [RecipeId], [Step],[Description], [Pic]
+// )
+// VALUES
+// ( -- First row: values for the columns in the list above
+//  1,
+//  1,
+//  '備料\n將吐司放入烤箱烤', 
+//  '../assets/recipes/酪梨軟酪吐司_step_1.jpg'
+// )
+// -- Add more rows here
+// GO
