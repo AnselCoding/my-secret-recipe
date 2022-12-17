@@ -1,3 +1,4 @@
+// 前端模擬資料
 export default [
     {recipeId:1, step:1, description:"備料\n將吐司放入烤箱烤", pic:require("../assets/recipes/酪梨軟酪吐司_step_1.jpg")},
     {recipeId:1, step:2, description:"熱水鍋\n煮滾熱水後，將雞蛋放入，計時8分鐘後，將蛋放入冷水中剝殼備用", pic:require("../assets/recipes/酪梨軟酪吐司_step_2.jpg")},
@@ -30,18 +31,23 @@ export default [
 ]
 
 // -- Create the table in the specified schema
-// CREATE TABLE [dbo].[RecipesM]
+// CREATE TABLE [dbo].[RecipesD]
 // (
-//     [RecipeId] INT NOT NULL PRIMARY KEY, -- Primary Key column
-//     [Step] INT NOT NULL  PRIMARY KEY,
+//     [RecipeId] INT NOT NULL, -- Primary Key
+//     [Step] INT NOT NULL, -- Primary Key
 //     [Description] NVARCHAR(MAX) NOT NULL,
 //     [Pic] NVARCHAR(100) NOT NULL,
 //     -- Specify more columns here
-// );
+//     CONSTRAINT [PK_RecipesD] PRIMARY KEY CLUSTERED 
+//     (
+//         [RecipeId] ASC,
+//         [Step] ASC
+//     )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+// ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 // GO
 
-// -- Insert rows into table 'RecipesM' in schema '[dbo]'
-// INSERT INTO [dbo].[RecipesM]
+// -- Insert rows into table 'RecipesD' in schema '[dbo]'
+// INSERT INTO [dbo].[RecipesD]
 // ( -- Columns to insert data into
 //   [RecipeId], [Step],[Description], [Pic]
 // )

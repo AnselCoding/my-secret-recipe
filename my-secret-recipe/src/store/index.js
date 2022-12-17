@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import tools from './tools'
-import food from './food'
-import recipesM from './recipesM'
-import ingredients from './ingredients'
-import recipesD from './recipesD'
-import carousel from './carousel'
+import tools from './RecipeDb/tools'
+import food from './RecipeDb/food'
+import recipesM from './RecipeDb/recipesM'
+import ingredients from './RecipeDb/ingredients'
+import recipesD from './RecipeDb/recipesD'
+import carousel from './RecipeDb/carousel'
 
 Vue.use(Vuex)
 

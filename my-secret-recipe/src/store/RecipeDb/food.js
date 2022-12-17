@@ -1,3 +1,4 @@
+// 前端模擬資料
 export default [
     {id:1, status:"onLine", name:"醬油", purchaseDate:"2021-09-22", expiryDate:"2022-10-23",retiredDate:"", pic:require("../assets/food/soy_sauce.jpg")},
     {id:2, status:"onLine", name:"胡椒", purchaseDate:"2021-05-20", expiryDate:"2022-05-23",retiredDate:"", pic:require("../assets/food/peper.jpg")},
@@ -9,17 +10,16 @@ export default [
     {id:8, status:"onLine", name:"玫瑰鹽", purchaseDate:"2022-09-22", expiryDate:"2023-09-23",retiredDate:"", pic:require("../assets/food/rose_salt.jpg")},
 ];
 
-// -- 與Tools table 格式確認
 // -- Create the table in the specified schema
 // CREATE TABLE [dbo].[Food]
 // (
 //     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
-//     [Status] NVARCHAR(50) NOT NULL,
+//     [Status] VARCHAR(50) NOT NULL,
 //     [Name] NVARCHAR(50) NOT NULL,
-//     [PurchaseDate] NVARCHAR(50) NOT NULL,
-//     [ExpiryDate] NVARCHAR(50) NOT NULL,
-//     [RetiredDate] NVARCHAR(50) NULL,
-//     [Pic] NVARCHAR(50) NOT NULL
+//     [PurchaseDate] DATE NOT NULL,
+//     [ExpiryDate] DATE NOT NULL,
+//     [RetiredDate] DATE NULL,
+//     [Pic] NVARCHAR(100) NOT NULL
 //     -- Specify more columns here
 // );
 // GO

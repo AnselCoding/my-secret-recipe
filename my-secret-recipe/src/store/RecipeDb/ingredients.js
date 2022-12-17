@@ -1,3 +1,4 @@
+// 前端模擬資料
 export default [
     {id:1, recipeId:1, name:"酪梨", amount: "1顆"},
     {id:2, recipeId:1, name:"Cream Chese", amount: "20g"},
@@ -44,7 +45,7 @@ export default [
 // (
 //     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
 //     [RecipeId] INT NOT NULL,
-//     [Name] NVARCHAR(50) NOT NULL,
+//     [Name] NVARCHAR(30) NOT NULL,
 //     [Amount] NVARCHAR(30) NOT NULL,
 //     -- Specify more columns here
 // );
@@ -53,7 +54,7 @@ export default [
 // -- Insert rows into table 'Ingredients' in schema '[dbo]'
 // INSERT INTO [dbo].[Ingredients]
 // ( -- Columns to insert data into
-//  [Id], [RecipeId], [Name], [Amount]
+//  [RecipeId], [Name], [Amount]
 // )
 // VALUES
 // ( -- First row: values for the columns in the list above

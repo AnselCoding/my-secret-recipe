@@ -1,4 +1,6 @@
 # my-secret-recipe
+This project is built with Vue2.
+Vuetify only can use in Vue2, back then.
 
 ## Project setup
 ```

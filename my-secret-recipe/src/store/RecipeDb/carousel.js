@@ -1,3 +1,4 @@
+// 前端模擬資料
 export default [
     {id:1, url:"https://www.youtube.com/c/jamieoliver", header:"Jamie Oliver", description:"We are all about beautiful recipes, expert tutorials, fresh talent, wonderful food and funny videos every week plus loads of your other favourite YouTubers dropping by to say hello.\nPLUS this channel is about you too. Tell us what you want to see, what's cool and how we can do better and we'll talk straight back. Get involved and subscribe for the latest!", pic:require("../assets/jamie-oliver.jpg")},
     {id:2, url:"https://www.youtube.com/user/gordonramsay", header:"Gordon James Ramsay", description:"The home of Gordon Ramsay on YouTube. Recipe tutorials, tips, techniques and the best bits from the archives. New uploads every week - subscribe now to stay up to date!", pic:require("../assets/gordon-ramsay.jpg")},
@@ -10,7 +11,7 @@ export default [
 //     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
 //     [Url] VARCHAR(100) NOT NULL,
 //     [Header] NVARCHAR(50) NOT NULL,
-//     [Description] NVARCHAR(Max) NOT NULL,
+//     [Description] NVARCHAR(MAX) NOT NULL,
 //     [Pic] NVARCHAR(100) NOT NULL
 //     -- Specify more columns here
 // );

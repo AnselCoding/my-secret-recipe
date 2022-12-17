@@ -1,3 +1,4 @@
+// 前端模擬資料
 export default [
     { id: 1, name: "酪梨軟酪吐司", status: "onLine",retiredDate:"", description: "不只需要蛋白質、澱粉，還需要滿滿的維他命C，簡單的蛋土司做些改變，用酪梨與Cream Chese當作主題，搭配水煮蛋與柳橙汁，讓平凡的早餐格外的豐盛。<br><br>資料來源:<br>https://icook.tw/recipes/423267", quantity: "2人份", cookingTime: "10分鐘", headPic: require("../assets/recipes/酪梨軟酪吐司_step_0.jpg") },
     { id: 2, name: "奶油蜂蜜吐司條", status: "onLine",retiredDate:"", description: "吃不完的白吐司變化成好吃的「奶油蜂蜜吐司條」<br>沒想到一吃就停不下來！！<br><br>資料來源:<br>https://icook.tw/recipes/404936", quantity: "3人份", cookingTime: "30分鐘", headPic: require("../assets/recipes/奶油蜂蜜吐司條_step_0.jpg") },
@@ -12,10 +13,10 @@ export default [
 // CREATE TABLE [dbo].[RecipesM]
 // (
 //     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
-//     [Name] NVARCHAR(50) NOT NULL,
-//     --[Status] VARCHAR(50) NOT NULL,
-//     [RetiredDate] Date NOT NULL,
-//     [Description] NVARCHAR(Max) NOT NULL,
+//     [Status] VARCHAR(30) NOT NULL,
+//     [Name] NVARCHAR(30) NOT NULL,
+//     [RetiredDate] Date NULL,
+//     [Description] NVARCHAR(MAX) NOT NULL,
 //     [Quantity] NVARCHAR(10) NOT NULL,
 //     [CookingTime] NVARCHAR(10) NOT NULL,
 //     [HeadPic] NVARCHAR(100) NOT NULL
@@ -32,6 +33,7 @@ export default [
 //  '酪梨軟酪吐司',
 //  'onLine', 
 //  null, 
+//  '不只需要蛋白質、澱粉，還需要滿滿的維他命C，簡單的蛋土司做些改變，用酪梨與Cream Chese當作主題，搭配水煮蛋與柳橙汁，讓平凡的早餐格外的豐盛。<br><br>資料來源:<br>https://icook.tw/recipes/423267',
 //  '2人份',
 //  '20分鐘',
 //  '../assets/recipes/味噌松阪豬_step_0.jpg'
