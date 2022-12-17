@@ -28,7 +28,7 @@ namespace BE_my_secret_recipe.Models
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-//                optionsBuilder.UseSqlServer("Server=.\\SQLSEVER_2018R2;Database=RecipeDb;Integrated Security=True;");
+//                optionsBuilder.UseSqlServer("Server=DESKTOP-MTV5J13\\SQLSEVER_2018R2;Database=RecipeDb;Integrated Security=True;");
 //            }
 //        }
 
@@ -36,8 +36,6 @@ namespace BE_my_secret_recipe.Models
         {
             modelBuilder.Entity<Carousel>(entity =>
             {
-                entity.ToTable("Carousel");
-
                 entity.Property(e => e.Header).HasMaxLength(50);
 
                 entity.Property(e => e.Pic).HasMaxLength(100);
