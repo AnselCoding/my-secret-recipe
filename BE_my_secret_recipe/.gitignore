@@ -4,7 +4,6 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # User-specific files
-*.rsuser
 *.suo
 *.user
 *.userosscache
@@ -20,6 +19,7 @@
 [Rr]eleases/
 x64/
 x86/
+build/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
@@ -63,6 +63,7 @@ StyleCopReport.xml
 *_i.c
 *_p.c
 *_h.h
+*_i.h
 *.ilk
 *.meta
 *.obj
@@ -170,7 +171,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# Note: Comment the next line if you want to checkin your web deploy settings,
+# TODO: Comment the next line if you want to checkin your web deploy settings
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
@@ -200,7 +201,10 @@ csx/
 ecf/
 rcf/
 
-# Windows Store app package directories and files
+# Microsoft Azure ApplicationInsights config file
+ApplicationInsights.config
+
+# Windows Store app package directory
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
@@ -222,6 +226,7 @@ ClientBin/
 *.jfm
 *.pfx
 *.publishsettings
+node_modules/
 orleans.codegen.cs
 
 # Including strong name files can present a security risk
