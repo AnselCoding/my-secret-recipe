@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-if="hasEntry">
     <Header></Header>
     <Expiring></Expiring>
     <Tools></Tools>
@@ -31,7 +31,15 @@ export default {
     Expiring,
     Recipes,
     Carousel
-}
+  },
+  computed:{    
+    hasEntry(){
+      if(this.$store.state.db && ('food' in this.$store.state.db)) return true
+      console.log("hasEntry");
+      return false;
+    },
+  }
+
 }
 </script>
 

@@ -20,9 +20,12 @@ export default {
     TopNav,
     Footer,
     UpToTop
-},
+  },
   data: () => ({
     //
   }),
+  created () {
+    this.$store.dispatch('loadDb');
+  }
 };
 </script>

@@ -14,6 +14,7 @@ export default new Vuex.Store({
     brand:"My Secret Recipe",
     editText:"完成修改!",
     retiredText:"完成刪除!",
+    db:{},
     tools,
     food,
     recipesM,
@@ -22,8 +23,21 @@ export default new Vuex.Store({
     carousel
   },
   mutations: {
+    async loadDb(){
+      var response = await HomeService.getMySecretRecipe();
+      console.log(response); 
+      response.food.forEach(item => {
+        item.pic = `/Img/food/${item.pic}`;
+        item.expiryDate = item.expiryDate.substr(0,10);// build a method
+      });
+      console.log(response.food)
+      this.state.db = response;
+    }
   },
   actions: {
+    loadDb({commit}){
+      commit("loadDb");
+    }
   },
   modules: {
   }

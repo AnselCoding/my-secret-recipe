@@ -1,4 +1,4 @@
-const apiServer = "https://localhost:7298";
+const apiServer = "https://localhost:7035";
 
 //#region fetch api
 function fetchGet(uri) {
@@ -38,12 +38,12 @@ function fetchGet(uri) {
   //#endregion
   
   //#region Api Service
-  class TodoItemsService{
-  static getTodoItems() {
-      return fetchGet(`/api/TodoItems`);
-  }
-  static setTodoItem(data) {
-      return fetchPost(`/api/TodoItems`, data);
-  }
+  class HomeService{
+    static getMySecretRecipe() {
+        return fetchGet(`/api/Home`);
+    }
+    // static setTodoItem(data) {
+    //     return fetchPost(`/api/TodoItems`, data);
+    // }
   }
   //#endregion

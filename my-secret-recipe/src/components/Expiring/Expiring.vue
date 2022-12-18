@@ -59,7 +59,7 @@ export default {
         expiring() {
             // food expired in a month
             let beforeAMonth = new Date(this.todayDate.getFullYear(), this.todayDate.getMonth() + 1, this.todayDate.getDate());
-            let expirings = this.$store.state.food.filter(x => beforeAMonth > new Date(x.expiryDate));
+            let expirings = this.$store.state.db.food.filter(x => beforeAMonth > new Date(x.expiryDate));
             // get a list of food which is online
             expirings = expirings.filter(x => x.status == "onLine");
             return expirings;
@@ -87,9 +87,9 @@ export default {
             // locate the item
             let index = this.newItem.id - 1;
             // change store data
-            this.$store.state.food[index].name = this.newItem.name;
-            this.$store.state.food[index].purchaseDate = this.newItem.purchaseDate;
-            this.$store.state.food[index].expiryDate = this.newItem.expiryDate;
+            this.$store.state.db.food[index].name = this.newItem.name;
+            this.$store.state.db.food[index].purchaseDate = this.newItem.purchaseDate;
+            this.$store.state.db.food[index].expiryDate = this.newItem.expiryDate;
             this.onCloseDialog();
 
             // show snackbar
@@ -104,8 +104,8 @@ export default {
             // locate the item
             let index = this.item.id - 1;
             // change store data to retired status
-            this.$store.state.food[index].status = "retired";
-            this.$store.state.food[index].retiredDate = this.today;
+            this.$store.state.db.food[index].status = "retired";
+            this.$store.state.db.food[index].retiredDate = this.today;
             this.onCloseDialog();
 
             // show snackbar
