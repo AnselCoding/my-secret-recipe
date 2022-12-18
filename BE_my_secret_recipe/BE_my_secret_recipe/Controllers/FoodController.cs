@@ -11,47 +11,47 @@ namespace BE_my_secret_recipe.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ToolsController : ControllerBase
+    public class FoodController : ControllerBase
     {
         private readonly RecipeDbContext _context;
 
-        public ToolsController(RecipeDbContext context)
+        public FoodController(RecipeDbContext context)
         {
             _context = context;
         }
 
-        //// GET: api/Tools
+        //// GET: api/Food
         //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Tool>>> GetTools()
+        //public async Task<ActionResult<IEnumerable<Food>>> GetFoods()
         //{
-        //    return await _context.Tools.ToListAsync();
+        //    return await _context.Foods.ToListAsync();
         //}
 
-        ////GET: api/Tools/5
+        //// GET: api/Food/5
         //[HttpGet("{id}")]
-        //public async Task<ActionResult<Tool>> GetTool(int id)
+        //public async Task<ActionResult<Food>> GetFood(int id)
         //{
-        //    var tool = await _context.Tools.FindAsync(id);
+        //    var food = await _context.Foods.FindAsync(id);
 
-        //    if (tool == null)
+        //    if (food == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    return tool;
+        //    return food;
         //}
 
-        // PUT: api/Tools/5
+        // PUT: api/Food/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTool(int id, Tool tool)
+        public async Task<IActionResult> PutFood(int id, Food food)
         {
-            if (id != tool.Id)
+            if (id != food.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(tool).State = EntityState.Modified;
+            _context.Entry(food).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace BE_my_secret_recipe.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ToolExists(id))
+                if (!FoodExists(id))
                 {
                     return NotFound();
                 }
@@ -72,37 +72,36 @@ namespace BE_my_secret_recipe.Controllers
             return NoContent();
         }
 
-        // POST: api/Tools
+        // POST: api/Food
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Tool>> PostTool(Tool tool)
+        public async Task<ActionResult<Food>> PostFood(Food food)
         {
-            _context.Tools.Add(tool);
+            _context.Foods.Add(food);
             await _context.SaveChangesAsync();
 
-            //return CreatedAtAction("GetTool", new { id = tool.Id }, tool);
-            return tool;
+            return food;
         }
 
-        // DELETE: api/Tools/5
+        // DELETE: api/Food/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTool(int id)
+        public async Task<IActionResult> DeleteFood(int id)
         {
-            var tool = await _context.Tools.FindAsync(id);
-            if (tool == null)
+            var food = await _context.Foods.FindAsync(id);
+            if (food == null)
             {
                 return NotFound();
             }
 
-            _context.Tools.Remove(tool);
+            _context.Foods.Remove(food);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ToolExists(int id)
+        private bool FoodExists(int id)
         {
-            return _context.Tools.Any(e => e.Id == id);
+            return _context.Foods.Any(e => e.Id == id);
         }
     }
 }

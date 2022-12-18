@@ -11,47 +11,47 @@ namespace BE_my_secret_recipe.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ToolsController : ControllerBase
+    public class CarouselsController : ControllerBase
     {
         private readonly RecipeDbContext _context;
 
-        public ToolsController(RecipeDbContext context)
+        public CarouselsController(RecipeDbContext context)
         {
             _context = context;
         }
 
-        //// GET: api/Tools
+        //// GET: api/Carousels
         //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Tool>>> GetTools()
+        //public async Task<ActionResult<IEnumerable<Carousel>>> GetCarousels()
         //{
-        //    return await _context.Tools.ToListAsync();
+        //    return await _context.Carousels.ToListAsync();
         //}
 
-        ////GET: api/Tools/5
+        //// GET: api/Carousels/5
         //[HttpGet("{id}")]
-        //public async Task<ActionResult<Tool>> GetTool(int id)
+        //public async Task<ActionResult<Carousel>> GetCarousel(int id)
         //{
-        //    var tool = await _context.Tools.FindAsync(id);
+        //    var carousel = await _context.Carousels.FindAsync(id);
 
-        //    if (tool == null)
+        //    if (carousel == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    return tool;
+        //    return carousel;
         //}
 
-        // PUT: api/Tools/5
+        // PUT: api/Carousels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTool(int id, Tool tool)
+        public async Task<IActionResult> PutCarousel(int id, Carousel carousel)
         {
-            if (id != tool.Id)
+            if (id != carousel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(tool).State = EntityState.Modified;
+            _context.Entry(carousel).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace BE_my_secret_recipe.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ToolExists(id))
+                if (!CarouselExists(id))
                 {
                     return NotFound();
                 }
@@ -72,37 +72,37 @@ namespace BE_my_secret_recipe.Controllers
             return NoContent();
         }
 
-        // POST: api/Tools
+        // POST: api/Carousels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Tool>> PostTool(Tool tool)
+        public async Task<ActionResult<Carousel>> PostCarousel(Carousel carousel)
         {
-            _context.Tools.Add(tool);
+            _context.Carousels.Add(carousel);
             await _context.SaveChangesAsync();
 
-            //return CreatedAtAction("GetTool", new { id = tool.Id }, tool);
-            return tool;
+            //return CreatedAtAction("GetCarousel", new { id = carousel.Id }, carousel);
+            return carousel;
         }
 
-        // DELETE: api/Tools/5
+        // DELETE: api/Carousels/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTool(int id)
+        public async Task<IActionResult> DeleteCarousel(int id)
         {
-            var tool = await _context.Tools.FindAsync(id);
-            if (tool == null)
+            var carousel = await _context.Carousels.FindAsync(id);
+            if (carousel == null)
             {
                 return NotFound();
             }
 
-            _context.Tools.Remove(tool);
+            _context.Carousels.Remove(carousel);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ToolExists(int id)
+        private bool CarouselExists(int id)
         {
-            return _context.Tools.Any(e => e.Id == id);
+            return _context.Carousels.Any(e => e.Id == id);
         }
     }
 }
