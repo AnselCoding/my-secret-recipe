@@ -1,10 +1,10 @@
 <template>
-  <div class="home" v-if="hasEntry">
+  <div class="home">
     <Header></Header>
     <Expiring></Expiring>
     <Tools></Tools>
     <Food></Food>
-    <Carousel></Carousel>
+    <Carousels></Carousels>
     <Recipes></Recipes>
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
@@ -19,7 +19,7 @@ import Tools from '../components/Tools/Tools.vue';
 import Food from '../components/Food/Food.vue';
 import Expiring from '../components/Expiring/Expiring.vue';
 import Recipes from '../components/Recipes/Recipes.vue';
-import Carousel from '../components/Recipes/Carousel.vue';
+import Carousels from '../components/Recipes/Carousels.vue';
 
 export default {
   name: 'Home',
@@ -30,14 +30,7 @@ export default {
     Food,
     Expiring,
     Recipes,
-    Carousel
-  },
-  computed:{    
-    hasEntry(){
-      if(this.$store.state.db && ('food' in this.$store.state.db)) return true
-      console.log("hasEntry");
-      return false;
-    },
+    Carousels
   }
 
 }

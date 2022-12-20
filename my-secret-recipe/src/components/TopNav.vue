@@ -110,7 +110,7 @@ export default {
   }),
   computed: {
     recipesM() {
-      return this.$store.state.recipesM.filter((x) => x.status == "onLine");
+      return this.$store.state.db.recipesM.filter((x) => x.status == "onLine");
     },
     recipesName() {
       let recipesName = [];
@@ -122,7 +122,7 @@ export default {
   },
   methods: {
     onSearch() {
-      this.recipe = this.$store.state.recipesM.find(
+      this.recipe = this.$store.state.db.recipesM.find(
         (x) => x.name == this.recipeName
       );
       if (this.recipe) {
@@ -135,8 +135,8 @@ export default {
       // locate the item
       let index = this.recipe.id - 1;
       // change store data to retired status
-      this.$store.state.recipesM[index].status = "retired";
-      this.$store.state.recipesM[index].retiredDate = this.today;
+      this.$store.state.db.recipesM[index].status = "retired";
+      this.$store.state.db.recipesM[index].retiredDate = this.today;
       this.onCloseDialog();
       this.recipeName = "";
       this.recipe = {};

@@ -56,7 +56,7 @@ export default {
     computed: {
         tools() {
             // get a list of tools which are online
-            return this.$store.state.tools.filter(x => x.status == "onLine");
+            return this.$store.state.db.tools.filter(x => x.status == "onLine");
         },
         today() {
             // for record retired date
@@ -80,8 +80,8 @@ export default {
             // locate the item
             let index = this.newTool.id - 1;
             // change store data
-            this.$store.state.tools[index].name = this.newTool.name;
-            this.$store.state.tools[index].purchaseDate = this.newTool.purchaseDate;
+            this.$store.state.db.tools[index].name = this.newTool.name;
+            this.$store.state.db.tools[index].purchaseDate = this.newTool.purchaseDate;
             this.onCloseDialog();
 
             // show snackbar
@@ -96,8 +96,8 @@ export default {
             // locate the item
             let index = this.tool.id - 1;
             // change store data to retired status
-            this.$store.state.tools[index].status = "retired";
-            this.$store.state.tools[index].retiredDate = this.today;
+            this.$store.state.db.tools[index].status = "retired";
+            this.$store.state.db.tools[index].retiredDate = this.today;
             this.onCloseDialog();
 
             // show snackbar

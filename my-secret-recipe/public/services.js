@@ -35,6 +35,24 @@ function fetchGet(uri) {
         });
     });
   };
+
+  function fetchPut(uri, value) {
+    return new Promise((resolve, reject) => {
+        fetch(`${apiServer}${uri}`, {
+            method: 'PUT',
+            body: JSON.stringify(value),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((res) => {
+            return res.json();
+        }).then((res) => {
+            resolve(res);
+        }).catch((e) => {
+            reject(e);
+        });
+    });
+  };
   //#endregion
   
   //#region Api Service
@@ -45,5 +63,11 @@ function fetchGet(uri) {
     // static setTodoItem(data) {
     //     return fetchPost(`/api/TodoItems`, data);
     // }
+  }
+
+  class FoodService{
+    static putFood(){
+        return fetchPut();
+    }
   }
   //#endregion

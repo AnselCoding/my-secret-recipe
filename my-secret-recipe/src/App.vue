@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="hasEntry">
     <TopNav />
     <v-main>
       <router-view />
@@ -26,6 +26,13 @@ export default {
   }),
   created () {
     this.$store.dispatch('loadDb');
+  },
+  computed:{    
+    hasEntry(){
+      if(this.$store.state.db && ('food' in this.$store.state.db)) return true
+      console.log("hasEntry");
+      return false;
+    },
   }
 };
 </script>

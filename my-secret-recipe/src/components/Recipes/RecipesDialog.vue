@@ -96,10 +96,10 @@ export default {
     }),
     computed: {
         ingredients() {
-            return this.$store.state.ingredients.filter(x => x.recipeId == this.recipe.id);
+            return this.$store.state.db.ingredients.filter(x => x.recipeId == this.recipe.id);
         },
         recipeSteps() {
-            return this.$store.state.recipesD.filter(x => x.recipeId == this.recipe.id);
+            return this.$store.state.db.recipesD.filter(x => x.recipeId == this.recipe.id);
         }
     }
 }
