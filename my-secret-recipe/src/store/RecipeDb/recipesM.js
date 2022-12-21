@@ -36,7 +36,7 @@ export default [
 //  '不只需要蛋白質、澱粉，還需要滿滿的維他命C，簡單的蛋土司做些改變，用酪梨與Cream Chese當作主題，搭配水煮蛋與柳橙汁，讓平凡的早餐格外的豐盛。<br><br>資料來源:<br>https://icook.tw/recipes/423267',
 //  '2人份',
 //  '20分鐘',
-//  '../assets/recipes/味噌松阪豬_step_0.jpg'
+//  '味噌松阪豬_step_0.jpg'
 // )
 // -- Add more rows here
 // GO

@@ -27,7 +27,7 @@ export default [
 //  'https://www.youtube.com/c/jamieoliver',
 //  'Jamie Oliver', 
 //  'We are all about beautiful recipes, expert tutorials, fresh talent, wonderful food and funny videos every week plus loads of your other favourite YouTubers dropping by to say hello.\nPLUS this channel is about you too. Tell us what you want to see, what`s cool and how we can do better and we`ll talk straight back. Get involved and subscribe for the latest!', 
-//  '../assets/jamie-oliver.jpg'
+//  'jamie-oliver.jpg'
 // )
 // -- Add more rows here
 // GO

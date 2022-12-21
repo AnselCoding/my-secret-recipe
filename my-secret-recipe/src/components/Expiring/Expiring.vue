@@ -78,34 +78,42 @@ export default {
         async onShowDialog(item) {
             await this.dialogTrue(); // show dialog
             this.item = item; // record choosen item
+            console.log(this.item)
             // show data at dialog
             document.getElementById('showExpiringName').innerHTML = item.name;
             document.getElementById('showExpiringPurchaseDate').innerHTML = item.purchaseDate;
             document.getElementById('showExpiringExpiryDate').innerHTML = item.expiryDate;
         },
-        onEditSave() {
+        onEditExpiring() {
+            this.edit = true; // show edit mode
+            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
+        },
+        async onEditSave() {
             // locate the item
-            let index = this.newItem.id - 1;
-            // change store data
+            let index = findIndexOfObj(this.$store.state.db.food,this.newItem);
+            // change view data(update store data)
             this.$store.state.db.food[index].name = this.newItem.name;
             this.$store.state.db.food[index].purchaseDate = this.newItem.purchaseDate;
             this.$store.state.db.food[index].expiryDate = this.newItem.expiryDate;
+            // call put (update backend DB), pic only need pic name.
+            this.newItem.pic = removeImgPath(this.newItem.pic);
+            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
+
             this.onCloseDialog();
 
             // show snackbar
             this.snackbar.snackbarText = this.$store.state.editText;
             this.snackbar.snackbar = true;
         },
-        onEditExpiring() {
-            this.edit = true; // show edit mode
-            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
-        },
-        onRetiredExpiring() {
-            // locate the item
-            let index = this.item.id - 1;
+        async onRetiredExpiring() {
             // change store data to retired status
-            this.$store.state.db.food[index].status = "retired";
-            this.$store.state.db.food[index].retiredDate = this.today;
+            // this.item與store同源，會同步更改
+            this.item.status = "retired";
+            this.item.retiredDate = this.today;
+            this.item.pic = removeImgPath(this.item.pic);
+            // call put (update backend DB)
+            var resp = await FoodService.updateFood(this.item.id, this.item);
+
             this.onCloseDialog();
 
             // show snackbar

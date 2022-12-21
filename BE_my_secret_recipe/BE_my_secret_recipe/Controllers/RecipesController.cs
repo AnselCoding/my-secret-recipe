@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BE_my_secret_recipe.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace BE_my_secret_recipe.Controllers
 {
@@ -19,6 +20,7 @@ namespace BE_my_secret_recipe.Controllers
         public Ingredient[] Ingredients { get; set; }
     }
 
+    [EnableCors("AnotherPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class RecipesController : ControllerBase

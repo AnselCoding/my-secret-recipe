@@ -45,9 +45,9 @@ function fetchPut(uri, value) {
 							'Content-Type': 'application/json'
 					}
 			}).then((res) => {
-					return res.json();
+					return res;
 			}).then((res) => {
-					resolve(res);
+					resolve(res); //回傳NoContent
 			}).catch((e) => {
 					reject(e);
 			});
@@ -62,9 +62,9 @@ function fetchDelete(uri) {
 							'Content-Type': 'application/json'
 					}
 			}).then((res) => {
-					return res.json();
+					return res;
 			}).then((res) => {
-					resolve(res);
+					resolve(res); //回傳NoContent
 			}).catch((e) => {
 					reject(e);
 			});
@@ -90,13 +90,10 @@ function fetchDelete(uri) {
 //   }
 
 class FoodService {
-	static putFood(id, data){
+	static updateFood(id, data){
 			return fetchPut(`/api/Food/${id}`,data);
 	}
-	static deleteFood(id){        
-			return fetchDelete(`/api/Food/${id}`);
-	}
-	static postFood(data){
+	static createFood(data){
 			return fetchPost(`/api/Food`, data);
 	}
 }
@@ -108,25 +105,19 @@ class HomeService {
 }
 
 class RecipesService {
-	static putRecipe(id,data){
+	static updateRecipe(id, data){
 			return fetchPut(`/api/Recipes/${id}`,data)
 	}
-	static deleteRecipe(id){
-			return fetchDelete(`/api/Recipes/${id}`);
-	}
-	static postRecipe(data){
+	static createRecipe(data){
 			return fetchPost(`/api/Recipes`, data);
 	}
 }
 
 class ToolsService {
-	static putTool(id,data){
+	static updateTool(id, data){
 			return fetchPut(`/api/Tools/${id}`,data)
 	}
-	static deleteTool(id){
-			return fetchDelete(`/api/Tools/${id}`);
-	}
-	static postTool(data){
+	static createTool(data){
 			return fetchPost(`/api/Tools`, data);
 	}
 }

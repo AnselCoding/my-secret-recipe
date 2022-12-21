@@ -56,7 +56,7 @@ export default [
 //  1,
 //  1,
 //  '備料\n將吐司放入烤箱烤', 
-//  '../assets/recipes/酪梨軟酪吐司_step_1.jpg'
+//  '酪梨軟酪吐司_step_1.jpg'
 // )
 // -- Add more rows here
 // GO

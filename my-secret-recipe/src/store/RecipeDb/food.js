@@ -31,7 +31,7 @@ export default [
 // )
 // VALUES
 // ( -- First row: values for the columns in the list above
-//  'onLine', '醬油', '2021-09-22','2022-10-23',null,'../assets/food/soy_sauce.jpg'
+//  'onLine', '醬油', '2021-09-22','2022-10-23',null,'soy_sauce.jpg'
 // )
 // -- Add more rows here
 // GO

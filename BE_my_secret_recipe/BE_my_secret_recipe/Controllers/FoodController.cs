@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BE_my_secret_recipe.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace BE_my_secret_recipe.Controllers
 {
+    [EnableCors("AnotherPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class FoodController : ControllerBase
@@ -83,21 +85,21 @@ namespace BE_my_secret_recipe.Controllers
             return food;
         }
 
-        // DELETE: api/Food/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFood(int id)
-        {
-            var food = await _context.Foods.FindAsync(id);
-            if (food == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/Food/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteFood(int id)
+        //{
+        //    var food = await _context.Foods.FindAsync(id);
+        //    if (food == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Foods.Remove(food);
-            await _context.SaveChangesAsync();
+        //    _context.Foods.Remove(food);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         private bool FoodExists(int id)
         {

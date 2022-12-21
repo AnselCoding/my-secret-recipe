@@ -33,7 +33,7 @@ export default [
 // )
 // VALUES
 // ( -- First row: values for the columns in the list above
-//  'onLine', '平底鍋', '2021-09-22',null,'../assets/tools/pan.jpg'
+//  'onLine', '平底鍋', '2021-09-22',null,'pan.jpg'
 // )
 // -- Add more rows here
 // GO
