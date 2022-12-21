@@ -78,28 +78,36 @@ export default {
             // $("#showToolName").text(tool.name); // jquery mode
             // document.getElementById('showToolName').innerHTML = tool.name; // js mode
         },
-        onEditSave() {
+        onEditTools() {
+            this.edit = true; // show edit mode
+            this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for edit
+        },
+        async onEditSave() {
             // locate the item
-            let index = this.newTool.id - 1;
+            let index = findIndexOfObj(this.$store.state.db.tools,this.newTool);
             // change store data
             this.$store.state.db.tools[index].name = this.newTool.name;
             this.$store.state.db.tools[index].purchaseDate = this.newTool.purchaseDate;
+            // call put (update backend DB), pic only need pic name.
+            this.newTool.pic = removeImgPath(this.newTool.pic);
+            var resp = await ToolsService.updateTool(this.newTool.id, this.newTool);
+
             this.onCloseDialog();
 
             // show snackbar
             this.snackbar.snackbarText = this.$store.state.editText;
             this.snackbar.snackbar = true;
         },
-        onEditTools() {
-            this.edit = true; // show edit mode
-            this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for edit
-        },
-        onRetiredTools() {
-            // locate the item
-            let index = this.tool.id - 1;
+        async onRetiredTools() {
             // change store data to retired status
-            this.$store.state.db.tools[index].status = "retired";
-            this.$store.state.db.tools[index].retiredDate = this.today;
+            // this.item與store同源，會同步更改
+            this.tool.status = "retired";
+            this.tool.retiredDate = this.today;
+            this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for remove
+            this.newTool.pic = removeImgPath(this.newTool.pic);
+            // call put (update backend DB)
+            var resp = await ToolsService.updateTool(this.newTool.id, this.newTool);
+
             this.onCloseDialog();
 
             // show snackbar

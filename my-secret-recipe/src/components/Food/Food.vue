@@ -81,29 +81,36 @@ export default {
             // $("#showFoodName").text(item.name); // jquery mode
             // document.getElementById('showFoodName').innerHTML = item.name; // js mode
         },
-        onEditSave() {
+        onEditFood() {
+            this.edit = true; // show edit mode
+            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
+        },
+        async onEditSave() {
             // locate the item
-            let index = this.newItem.id - 1;
+            let index = findIndexOfObj(this.$store.state.db.food,this.newItem);
             // change store data
             this.$store.state.db.food[index].name = this.newItem.name;
             this.$store.state.db.food[index].purchaseDate = this.newItem.purchaseDate;
             this.$store.state.db.food[index].expiryDate = this.newItem.expiryDate;
+            this.newItem.pic = removeImgPath(this.newItem.pic);
+            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
+
             this.onCloseDialog();
 
             // show snackbar
             this.snackbar.snackbarText = this.$store.state.editText;
             this.snackbar.snackbar = true;
         },
-        onEditFood() {
-            this.edit = true; // show edit mode
-            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
-        },
-        onRetiredFood() {
-            // locate the item
-            let index = this.item.id - 1;
+        async onRetiredFood() {
             // change store data to retired status
-            this.$store.state.db.food[index].status = "retired";
-            this.$store.state.db.food[index].retiredDate = this.today;
+            // this.item與store同源，會同步更改
+            this.item.status = "retired";
+            this.item.retiredDate = this.today;
+            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
+            this.newItem.pic = removeImgPath(this.newItem.pic);
+            // call put (update backend DB)
+            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
+
             this.onCloseDialog();
 
             // show snackbar

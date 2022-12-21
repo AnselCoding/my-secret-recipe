@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import tools from './RecipeDb/tools'
+// import tools from './RecipeDb/tools' // 引用前端模擬資料
 // import food from './RecipeDb/food'
 // import recipesM from './RecipeDb/recipesM'
 // import ingredients from './RecipeDb/ingredients'
