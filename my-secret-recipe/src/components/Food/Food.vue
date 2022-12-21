@@ -1,9 +1,13 @@
 <template>
     <v-container class="containerBGC pb-6" id="food">
         <v-row>
-            <v-col sm="10" offset-sm="1" md="8" offset-md="2">
-                <h3>食品清單 | Food</h3>
+            <v-col sm="10" offset-sm="1" md="8" offset-md="2" class="d-flex  align-center" >
+                <h3>食品清單 | Food</h3> 
+                <v-btn color="secondary" small text @click="onCreate" class="font-weight-black">
+                    新增
+                </v-btn>                           
             </v-col>
+            
         </v-row>
         <v-row>
             <v-col sm="10" offset-sm="1" md="8" offset-md="2">
