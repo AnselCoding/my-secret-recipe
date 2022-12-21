@@ -3,71 +3,71 @@ const apiServer = "https://localhost:7035";
 //#region fetch api
 function fetchGet(uri) {
 	return new Promise((resolve, reject) => {
-			fetch(`${apiServer}${uri}`, {
-					method: 'GET',
-					headers: {
-							'Content-Type': 'application/json'
-					}
-			}).then((res) => {
-					return res.json();
-			}).then((res) => {
-					resolve(res);
-			}).catch((e) => {
-					reject(e);
-			});
+		fetch(`${apiServer}${uri}`, {
+				method: 'GET',
+				headers: {
+						'Content-Type': 'application/json'
+				}
+		}).then((res) => {
+				return res.json();
+		}).then((res) => {
+				resolve(res);
+		}).catch((e) => {
+				reject(e);
+		});
 	});
 };
   
 function fetchPost(uri, value) {
 	return new Promise((resolve, reject) => {
-			fetch(`${apiServer}${uri}`, {
-					method: 'POST',
-					body: JSON.stringify(value),
-					headers: {
-							'Content-Type': 'application/json'
-					}
-			}).then((res) => {
-					return res.json();
-			}).then((res) => {
-					resolve(res);
-			}).catch((e) => {
-					reject(e);
-			});
+		fetch(`${apiServer}${uri}`, {
+				method: 'POST',
+				body: JSON.stringify(value),
+				headers: {
+						'Content-Type': 'application/json'
+				}
+		}).then((res) => {
+				return res.json();
+		}).then((res) => {
+				resolve(res);
+		}).catch((e) => {
+				reject(e);
+		});
 	});
 };
 
 function fetchPut(uri, value) {
 	return new Promise((resolve, reject) => {
-			fetch(`${apiServer}${uri}`, {
-					method: 'PUT',
-					body: JSON.stringify(value),
-					headers: {
-							'Content-Type': 'application/json'
-					}
-			}).then((res) => {
-					return res;
-			}).then((res) => {
-					resolve(res); //回傳NoContent
-			}).catch((e) => {
-					reject(e);
-			});
+		fetch(`${apiServer}${uri}`, {
+				method: 'PUT',
+				body: JSON.stringify(value),
+				headers: {
+						'Content-Type': 'application/json'
+				}
+		}).then((res) => {
+				return res;
+		}).then((res) => {
+				resolve(res); //回傳NoContent
+		}).catch((e) => {
+				reject(e);
+		});
 	});
 };
 
 function fetchDelete(uri) {
 	return new Promise((resolve, reject) => {
-			fetch(`${apiServer}${uri}`, {
-					method: 'DELETE',
-					headers: {
-							'Content-Type': 'application/json'
-					}
-			}).then((res) => {
-					return res;
-			}).then((res) => {
-					resolve(res); //回傳NoContent
-			}).catch((e) => {
-					reject(e);
-			});
+		fetch(`${apiServer}${uri}`, {
+				method: 'DELETE',
+				headers: {
+						'Content-Type': 'application/json'
+				}
+		}).then((res) => {
+				return res;
+		}).then((res) => {
+				resolve(res); //回傳NoContent
+		}).catch((e) => {
+				reject(e);
+		});
 	});
 };
 //#endregion
@@ -78,47 +78,44 @@ function fetchDelete(uri) {
 
 /// 暫時沒用到，沒開放前端修改幻燈片
 //   class CarouselsService {
-//     static putCarousel(id,data){
+//     static updateCarousel(id,data){
 //         return fetchPut(`/api/Carousels/${id}`,data)
 //     }
-//     static deleteCarousel(id){
-//         return fetchDelete(`/api/Carousels/${id}`);
-//     }
-//     static postCarousel(data){
+//     static createCarousel(data){
 //         return fetchPost(`/api/Carousels`, data);
 //     }
 //   }
 
 class FoodService {
 	static updateFood(id, data){
-			return fetchPut(`/api/Food/${id}`,data);
+		return fetchPut(`/api/Food/${id}`,data);
 	}
 	static createFood(data){
-			return fetchPost(`/api/Food`, data);
+		return fetchPost(`/api/Food`, data);
 	}
 }
 
 class HomeService {
 	static getMySecretRecipe() {
-			return fetchGet(`/api/Home`);
+		return fetchGet(`/api/Home`);
 	}
 }
 
 class RecipesService {
 	static updateRecipe(id, data){
-			return fetchPut(`/api/Recipes/${id}`,data)
+		return fetchPut(`/api/Recipes/${id}`,data)
 	}
 	static createRecipe(data){
-			return fetchPost(`/api/Recipes`, data);
+		return fetchPost(`/api/Recipes`, data);
 	}
 }
 
 class ToolsService {
 	static updateTool(id, data){
-			return fetchPut(`/api/Tools/${id}`,data)
+		return fetchPut(`/api/Tools/${id}`,data)
 	}
 	static createTool(data){
-			return fetchPost(`/api/Tools`, data);
+		return fetchPost(`/api/Tools`, data);
 	}
 }
 //#endregion
