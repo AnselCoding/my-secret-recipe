@@ -78,11 +78,12 @@ export default {
         async onShowDialog(item) {
             await this.dialogTrue(); // show dialog
             this.item = item; // record choosen item
-            console.log(this.item)
             // show data at dialog
-            document.getElementById('showExpiringName').innerHTML = item.name;
-            document.getElementById('showExpiringPurchaseDate').innerHTML = item.purchaseDate;
-            document.getElementById('showExpiringExpiryDate').innerHTML = item.expiryDate;
+            showExpiringName.innerHTML = item.name; // js id mode
+            showExpiringPurchaseDate.innerHTML = item.purchaseDate;
+            showExpiringExpiryDate.innerHTML = item.expiryDate;
+            // $("#showExpiringName").text(item.name); // jquery mode
+            // document.getElementById('showExpiringName').innerHTML = item.name; // js mode
         },
         onEditExpiring() {
             this.edit = true; // show edit mode
@@ -110,9 +111,10 @@ export default {
             // this.item與store同源，會同步更改
             this.item.status = "retired";
             this.item.retiredDate = this.today;
-            this.item.pic = removeImgPath(this.item.pic);
+            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
+            this.newItem.pic = removeImgPath(this.newItem.pic);
             // call put (update backend DB)
-            var resp = await FoodService.updateFood(this.item.id, this.item);
+            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
 
             this.onCloseDialog();
 

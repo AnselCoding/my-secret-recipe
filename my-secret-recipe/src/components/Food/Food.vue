@@ -3,9 +3,9 @@
         <v-row>
             <v-col sm="10" offset-sm="1" md="8" offset-md="2" class="d-flex  align-center" >
                 <h3>食品清單 | Food</h3> 
-                <v-btn color="secondary" small text @click="onCreate" class="font-weight-black">
+                <!-- <v-btn color="secondary" small text @click="onCreate" class="font-weight-black">
                     新增
-                </v-btn>                           
+                </v-btn>                            -->
             </v-col>
             
         </v-row>
@@ -75,12 +75,11 @@ export default {
             await this.dialogTrue(); // show dialog
             this.item = item; // record choosen item
             // show data at dialog
-            $("#showFoodName").text(item.name);
-            $("#showFoodPurchaseDate").text(item.purchaseDate);
-            $("#showFoodExpiryDate").text(item.expiryDate);
-            // document.getElementById('showFoodName').innerHTML = item.name;
-            // document.getElementById('showFoodPurchaseDate').innerHTML = item.purchaseDate;
-            // document.getElementById('showFoodExpiryDate').innerHTML = item.expiryDate;
+            showFoodName.innerHTML = item.name; // js id mode
+            showFoodPurchaseDate.innerHTML = item.purchaseDate;
+            showFoodExpiryDate.innerHTML = item.expiryDate;
+            // $("#showFoodName").text(item.name); // jquery mode
+            // document.getElementById('showFoodName').innerHTML = item.name; // js mode
         },
         onEditSave() {
             // locate the item

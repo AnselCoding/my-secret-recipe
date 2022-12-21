@@ -73,8 +73,10 @@ export default {
             await this.dialogTrue(); // show dialog
             this.tool = tool; // record choosen item
             // show data at dialog
-            document.getElementById('showToolName').innerHTML = tool.name;
-            document.getElementById('showToolPurchaseDate').innerHTML = tool.purchaseDate;
+            showToolName.innerHTML = tool.name; // js id mode
+            showToolPurchaseDate.innerHTML = tool.purchaseDate;
+            // $("#showToolName").text(tool.name); // jquery mode
+            // document.getElementById('showToolName').innerHTML = tool.name; // js mode
         },
         onEditSave() {
             // locate the item
