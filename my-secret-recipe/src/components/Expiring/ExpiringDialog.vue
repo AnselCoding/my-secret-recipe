@@ -54,10 +54,10 @@
                         </v-btn>
                     </div>
                     <div  v-if="!create && !edit">
-                        <v-btn color="secondary" text @click="onEditExpiring">
+                        <v-btn color="secondary" text @click="onEditFood">
                             修改
                         </v-btn>
-                        <v-btn color="secondary" text @click="onRetiredExpiring">
+                        <v-btn color="secondary" text @click="onConfirmRetire">
                             刪除
                         </v-btn>
                     </div>
@@ -67,20 +67,14 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
-            {{ snackbar.snackbarText }}
-
-            <template v-slot:action="{ attrs }">
-                <v-btn color="blue" text v-bind="attrs" @click="snackbar.snackbar = false">
-                    Close
-                </v-btn>
-            </template>
-        </v-snackbar>
+        <Snackbar :snackbar="snackbar"></Snackbar>
     </div>
 </template>
 <script>
+import Snackbar from '../Common/Snackbar.vue';
 export default {
     name: 'ExpiringDialog',
+    components: { Snackbar },
     props: {
         snackbar: Object,
         newItem: Object,
@@ -89,8 +83,8 @@ export default {
         create: Boolean,
         onCreateSave: Function,
         onEditSave: Function,
-        onEditExpiring: Function,
-        onRetiredExpiring: Function,
+        onEditFood: Function,
+        onConfirmRetire: Function,
         onCloseDialog: Function,
     },
     data: () => ({

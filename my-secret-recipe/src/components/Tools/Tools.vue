@@ -35,17 +35,20 @@
             </v-col>
         </v-row>
         <ToolsDialog :snackbar="snackbar" :newTool="newTool" :dialog="dialog" :edit="edit" :create="create" :onEditSave="onEditSave"
-        :onCreateSave="onCreateSave" :onEditTools="onEditTools" :onRetiredTools="onRetiredTools" :onCloseDialog="onCloseDialog"></ToolsDialog>
-
+            :onCreateSave="onCreateSave" :onEditTools="onEditTools" :onConfirmRetire="onConfirmRetire" :onCloseDialog="onCloseDialog"></ToolsDialog>
+        <ConfirmDialog :dialog="confirmDialog" :item="tool" 
+            :onRetired="onRetiredTools" :onCloseDialog="onCloseDialog"></ConfirmDialog>
     </v-container>
 </template>
 
 <script>
 import ToolsDialog from './ToolsDialog.vue';
+import ConfirmDialog from '../Common/ConfirmDialog.vue';
 export default {
     name: "Tools",
-    components: { ToolsDialog },
+    components: { ToolsDialog, ConfirmDialog },
     data: () => ({
+        confirmDialog: false, // show confirm dialog when it's going to delete item
         dialog: false, // show dialog when it's true
         edit: false, // show edit mode when it's true
         create: false, //show create mode when it's true
@@ -76,6 +79,7 @@ export default {
 
             // save new item
             var resp = await ToolsService.createTool(tempItem);
+            resp.purchaseDate = resp.purchaseDate.YYYYMMDD();
             this.$store.state.db.tools.unshift(resp);
             
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.create, this.snackbar);
@@ -124,6 +128,9 @@ export default {
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
+        async onConfirmRetire(){
+            this.confirmDialog = true;
+        },
         async onShowDialog(tool) {
             await this.dialogTrue(); // show dialog
             this.tool = tool; // record choosen item
@@ -137,8 +144,10 @@ export default {
             this.dialog = true;
         },
         onCloseDialog() {
+            this.confirmDialog = false;
             this.dialog = false;
             this.edit = false;
+            this.create = false;
         }
     }
 };

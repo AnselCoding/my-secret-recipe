@@ -57,21 +57,23 @@
         <v-dialog v-model="dialog" scrollable max-width="800px">
             <RecipesDialog :dialogTopId="dialogTopId" :recipe="recipe" :dialog="dialog" :onRetiredRecipe="onRetiredRecipe"></RecipesDialog>
         </v-dialog>
-        <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
+        <Snackbar :snackbar="snackbar"></Snackbar>
+        <!-- <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
             {{ snackbar.snackbarText }}
             <template v-slot:action="{ attrs }">
                 <v-btn color="blue" text v-bind="attrs" @click="snackbar.snackbar = false">
                     Close
                 </v-btn>
             </template>
-        </v-snackbar>
+        </v-snackbar> -->
     </v-container>
 </template>
 <script>
+import Snackbar from '../Common/Snackbar.vue';
 import RecipesDialog from './RecipesDialog.vue';
 export default {
     name: "Recipes",
-    components: { RecipesDialog },
+    components: { RecipesDialog, Snackbar },
     data: () => ({
         dialog: false,
         recipe: {},

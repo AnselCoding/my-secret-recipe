@@ -34,16 +34,20 @@
             </v-col>
         </v-row>
         <ExpiringDialog :snackbar="snackbar" :newItem="newItem" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
-            :onEditExpiring="onEditExpiring" :onRetiredExpiring="onRetiredExpiring" :onCloseDialog="onCloseDialog">
-        </ExpiringDialog>
+            :onEditFood="onEditFood" :onConfirmRetire="onConfirmRetire" :onCloseDialog="onCloseDialog"></ExpiringDialog>
+        <ConfirmDialog :dialog="confirmDialog" :item="item" 
+            :onRetired="onRetiredFood" :onCloseDialog="onCloseDialog"></ConfirmDialog>
     </v-container>
 </template>
 <script>
 import ExpiringDialog from './ExpiringDialog.vue';
+// import FoodDialog from '../Food/FoodDialog.vue';
+import ConfirmDialog from '../Common/ConfirmDialog.vue';
 export default {
     name: "Expiring",
-    components: { ExpiringDialog },
+    components: { ExpiringDialog, ConfirmDialog },
     data: () => ({
+        confirmDialog: false, // show confirm dialog when it's going to delete item
         todayDate: new Date(), // to check if item is expired
         dialog: false, // show dialog when it's true
         edit: false, // show edit mode when it's true
@@ -66,23 +70,6 @@ export default {
         },
     },
     methods: {
-        dialogTrue() {
-            this.dialog = true;
-        },
-        async onShowDialog(item) {
-            await this.dialogTrue(); // show dialog
-            this.item = item; // record choosen item
-            // show data at dialog
-            showExpiringName.innerHTML = item.name; // js id mode
-            showExpiringPurchaseDate.innerHTML = item.purchaseDate;
-            showExpiringExpiryDate.innerHTML = item.expiryDate;
-            // $("#showExpiringName").text(item.name); // jquery mode
-            // document.getElementById('showExpiringName').innerHTML = item.name; // js mode
-        },
-        onEditExpiring() {
-            this.edit = true; // show edit mode
-            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
-        },
         async onEditSave() {
             let tempItem = this.newItem;
             // check required value
@@ -104,21 +91,44 @@ export default {
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.edit, this.snackbar);
         },
-        async onRetiredExpiring() {
+        onEditFood() {
+            this.edit = true; // show edit mode
+            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
+        },
+        async onRetiredFood() {
             // change store data to retired status
             // this.item與store同源，會同步更改
             this.item.status = "retired";
             this.item.retiredDate = todayStr();
-            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
-            this.newItem.pic = removeImgPath(this.newItem.pic);
-            // call put (update backend DB)
-            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
+            // call put (update backend DB), pic only need pic name.
+            let tempItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
+            tempItem.pic = removeImgPath(tempItem.pic);
+            var resp = await FoodService.updateFood(tempItem.id, tempItem);
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
+        async onConfirmRetire(){
+            this.confirmDialog = true;
+        },
+        async onShowDialog(item) {
+            // show dialog, use async let it can find item on dialog first, or it will show no defined.
+            await this.dialogTrue(); // show dialog
+            this.item = item; // record choosen item
+            // show data at dialog
+            showExpiringName.innerHTML = item.name; // js id mode
+            showExpiringPurchaseDate.innerHTML = item.purchaseDate;
+            showExpiringExpiryDate.innerHTML = item.expiryDate;
+            // $("#showFoodName").text(item.name); // jquery mode
+            // document.getElementById('showFoodName').innerHTML = item.name; // js mode
+        },
+        dialogTrue() {
+            this.dialog = true;
+        },
         onCloseDialog() {
+            this.confirmDialog = false;
             this.dialog = false;
             this.edit = false;
+            this.create = false;
         }
     }
 }

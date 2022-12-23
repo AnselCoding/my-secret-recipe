@@ -46,7 +46,7 @@
                         <v-btn color="secondary" text @click="onEditTools">
                             修改
                         </v-btn>
-                        <v-btn color="secondary" text @click="onRetiredTools">
+                        <v-btn color="secondary" text @click="onConfirmRetire">
                             刪除
                         </v-btn>
                     </div>
@@ -56,20 +56,14 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
-            {{ snackbar.snackbarText }}
-
-            <template v-slot:action="{ attrs }">
-                <v-btn color="blue" text v-bind="attrs" @click="snackbar.snackbar = false">
-                    Close
-                </v-btn>
-            </template>
-        </v-snackbar>
+        <Snackbar :snackbar="snackbar"></Snackbar>
     </div>
 </template>
 <script>
+import Snackbar from '../Common/Snackbar.vue';
 export default {
     name: 'ToolsDialog',
+    components: { Snackbar },
     props: {
         snackbar: Object,
         newTool: Object,
@@ -79,7 +73,7 @@ export default {
         onCreateSave: Function,
         onEditSave: Function,
         onEditTools: Function,
-        onRetiredTools: Function,
+        onConfirmRetire: Function,
         onCloseDialog: Function,
     },
     data: () => ({

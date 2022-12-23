@@ -34,16 +34,20 @@
                 </v-row>
             </v-col>
         </v-row>
-        <FoodDialog :snackbar="snackbar" :item="item" :newItem="newItem" :dialog="dialog" :edit="edit" :create="create" :onEditSave="onEditSave"
-            :onCreateSave="onCreateSave" :onEditFood="onEditFood" :onRetiredFood="onRetiredFood" :onCloseDialog="onCloseDialog"></FoodDialog>
+        <FoodDialog :snackbar="snackbar" :newItem="newItem" :dialog="dialog" :edit="edit" :create="create" :onEditSave="onEditSave"
+            :onCreateSave="onCreateSave" :onEditFood="onEditFood" :onConfirmRetire="onConfirmRetire" :onCloseDialog="onCloseDialog"></FoodDialog>
+        <ConfirmDialog :dialog="confirmDialog" :item="item"
+            :onRetired="onRetiredFood" :onCloseDialog="onCloseDialog"></ConfirmDialog>
     </v-container>
 </template>
 <script>
 import FoodDialog from './FoodDialog.vue';
+import ConfirmDialog from '../Common/ConfirmDialog.vue';
 export default {
     name: "Food",
-    components: { FoodDialog },
+    components: { FoodDialog, ConfirmDialog },
     data: () => ({
+        confirmDialog: false, // show confirm dialog when it's going to delete item
         dialog: false, //show dialog when it's true
         edit: false, //show edit mode when it's true
         create: false, //show create mode when it's true
@@ -74,6 +78,8 @@ export default {
 
             // save new item
             var resp = await FoodService.createFood(tempItem);
+            resp.purchaseDate = resp.purchaseDate.YYYYMMDD();
+            resp.expiryDate = resp.expiryDate.YYYYMMDD();
             this.$store.state.db.food.unshift(resp);
             
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.create, this.snackbar);
@@ -97,7 +103,7 @@ export default {
             }
             // locate the item
             let index = findIndexOfObj(this.$store.state.db.food,tempItem);
-            // change store data
+            // change store data(update store data)
             this.$store.state.db.food[index].name = tempItem.name;
             this.$store.state.db.food[index].purchaseDate = tempItem.purchaseDate;
             this.$store.state.db.food[index].expiryDate = tempItem.expiryDate;
@@ -124,9 +130,12 @@ export default {
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
+        async onConfirmRetire(){
+            this.confirmDialog = true;
+        },
         async onShowDialog(item) {
             // show dialog, use async let it can find item on dialog first, or it will show no defined.
-            await this.dialogTrue();
+            await this.dialogTrue(); // show dialog
             this.item = item; // record choosen item
             // show data at dialog
             showFoodName.innerHTML = item.name; // js id mode
@@ -139,6 +148,7 @@ export default {
             this.dialog = true; // show dialog
         },
         onCloseDialog() {
+            this.confirmDialog = false;
             this.dialog = false;
             this.edit = false;
             this.create = false;

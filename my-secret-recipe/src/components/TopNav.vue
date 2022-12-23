@@ -69,7 +69,8 @@
         :onRetiredRecipe="onRetiredRecipe"
       ></RecipesDialog>
     </v-dialog>
-    <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
+    <Snackbar :snackbar="snackbar"></Snackbar>
+    <!-- <v-snackbar v-model="snackbar.snackbar" :timeout="snackbar.timeout">
       {{ snackbar.snackbarText }}
       <template v-slot:action="{ attrs }">
         <v-btn
@@ -81,16 +82,16 @@
           Close
         </v-btn>
       </template>
-    </v-snackbar>
+    </v-snackbar> -->
   </div>
 </template>
 
 <script>
+import Snackbar from "./Common/Snackbar.vue";
 import RecipesDialog from "./Recipes/RecipesDialog.vue";
-
 export default {
   name: "TopNav",
-  components: { RecipesDialog },
+  components: { RecipesDialog, Snackbar },
   data: () => ({
     drawer: false,
     items: [
