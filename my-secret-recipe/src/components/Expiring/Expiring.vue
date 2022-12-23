@@ -64,12 +64,6 @@ export default {
             expirings = expirings.filter(x => x.status == "onLine");
             return expirings;
         },
-        today() {
-            // for record retired date
-            let date = new Date();
-            let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-            return today;
-        }
     },
     methods: {
         dialogTrue() {
@@ -90,37 +84,37 @@ export default {
             this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
         },
         async onEditSave() {
+            let tempItem = this.newItem;
+            // check required value
+            if (tempItem.name == "" || tempItem.purchaseDate == "" || tempItem.expiryDate == "") {
+                // show snackbar
+                this.snackbar.snackbarText = this.$store.state.requiredText;
+                this.snackbar.snackbar = true;
+                return;
+            }
             // locate the item
-            let index = findIndexOfObj(this.$store.state.db.food,this.newItem);
+            let index = findIndexOfObj(this.$store.state.db.food, tempItem);
             // change view data(update store data)
-            this.$store.state.db.food[index].name = this.newItem.name;
-            this.$store.state.db.food[index].purchaseDate = this.newItem.purchaseDate;
-            this.$store.state.db.food[index].expiryDate = this.newItem.expiryDate;
+            this.$store.state.db.food[index].name = tempItem.name;
+            this.$store.state.db.food[index].purchaseDate = tempItem.purchaseDate;
+            this.$store.state.db.food[index].expiryDate = tempItem.expiryDate;
             // call put (update backend DB), pic only need pic name.
-            this.newItem.pic = removeImgPath(this.newItem.pic);
-            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
+            tempItem.pic = removeImgPath(tempItem.pic);
+            var resp = await FoodService.updateFood(tempItem.id, tempItem);
 
-            this.onCloseDialog();
-
-            // show snackbar
-            this.snackbar.snackbarText = this.$store.state.editText;
-            this.snackbar.snackbar = true;
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.edit, this.snackbar);
         },
         async onRetiredExpiring() {
             // change store data to retired status
             // this.item與store同源，會同步更改
             this.item.status = "retired";
-            this.item.retiredDate = this.today;
+            this.item.retiredDate = todayStr();
             this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
             this.newItem.pic = removeImgPath(this.newItem.pic);
             // call put (update backend DB)
             var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
 
-            this.onCloseDialog();
-
-            // show snackbar
-            this.snackbar.snackbarText = this.$store.state.retiredText;
-            this.snackbar.snackbar = true;
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
         onCloseDialog() {
             this.dialog = false;

@@ -1,13 +1,12 @@
 <template>
     <v-container class="containerBGC pb-6" id="food">
         <v-row>
-            <v-col sm="10" offset-sm="1" md="8" offset-md="2" class="d-flex  align-center" >
-                <h3>食品清單 | Food</h3> 
-                <!-- <v-btn color="secondary" small text @click="onCreate" class="font-weight-black">
+            <v-col sm="10" offset-sm="1" md="8" offset-md="2" class="d-flex align-center" >
+                <h3>食品清單 | Food</h3>
+                <v-btn color="secondary" small text @click="onCreateFood" class="font-weight-black">
                     新增
-                </v-btn>                            -->
-            </v-col>
-            
+                </v-btn>
+            </v-col>            
         </v-row>
         <v-row>
             <v-col sm="10" offset-sm="1" md="8" offset-md="2">
@@ -35,8 +34,8 @@
                 </v-row>
             </v-col>
         </v-row>
-        <FoodDialog :snackbar="snackbar" :newItem="newItem" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
-            :onEditFood="onEditFood" :onRetiredFood="onRetiredFood" :onCloseDialog="onCloseDialog"></FoodDialog>
+        <FoodDialog :snackbar="snackbar" :item="item" :newItem="newItem" :dialog="dialog" :edit="edit" :create="create" :onEditSave="onEditSave"
+            :onCreateSave="onCreateSave" :onEditFood="onEditFood" :onRetiredFood="onRetiredFood" :onCloseDialog="onCloseDialog"></FoodDialog>
     </v-container>
 </template>
 <script>
@@ -47,6 +46,7 @@ export default {
     data: () => ({
         dialog: false, //show dialog when it's true
         edit: false, //show edit mode when it's true
+        create: false, //show create mode when it's true
         item: {}, // choosen item
         newItem: {}, // deep copy for edit
         snackbar: {
@@ -60,19 +60,73 @@ export default {
             // get a list of food which is online
             return this.$store.state.db.food.filter(x => x.status == "onLine");
         },
-        today() {
-            // for record retired date
-            let date = new Date();
-            let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-            return today;
-        }
     },
     methods: {
-        dialogTrue() {
-            this.dialog = true;
+        async onCreateSave(){
+            let tempItem = this.newItem;
+            // check required value
+            if (tempItem.name == "" || tempItem.purchaseDate == "" || tempItem.expiryDate == "") {
+                // show snackbar
+                this.snackbar.snackbarText = this.$store.state.requiredText;
+                this.snackbar.snackbar = true;
+                return;
+            }
+
+            // save new item
+            var resp = await FoodService.createFood(tempItem);
+            this.$store.state.db.food.unshift(resp);
+            
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.create, this.snackbar);
+        },
+        async onCreateFood(){
+            await this.dialogTrue(); // show dialog
+            let tempItem = new Food({});
+            tempItem.purchaseDate = tempItem.purchaseDate.YYYYMMDD();
+            tempItem.expiryDate = tempItem.expiryDate.YYYYMMDD();
+            this.newItem = tempItem; // update display
+            this.create = true; // show create mode
+        },
+        async onEditSave() {
+            let tempItem = this.newItem;
+            // check required value
+            if (tempItem.name == "" || tempItem.purchaseDate == "" || tempItem.expiryDate == "") {
+                // show snackbar
+                this.snackbar.snackbarText = this.$store.state.requiredText;
+                this.snackbar.snackbar = true;
+                return;
+            }
+            // locate the item
+            let index = findIndexOfObj(this.$store.state.db.food,tempItem);
+            // change store data
+            this.$store.state.db.food[index].name = tempItem.name;
+            this.$store.state.db.food[index].purchaseDate = tempItem.purchaseDate;
+            this.$store.state.db.food[index].expiryDate = tempItem.expiryDate;
+            // call put (update backend DB), pic only need pic name.
+            tempItem.pic = removeImgPath(tempItem.pic);
+            var resp = await FoodService.updateFood(tempItem.id, tempItem);
+
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.edit, this.snackbar);
+        },
+        onEditFood() {
+            this.edit = true; // show edit mode
+            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
+            //dialog edit mode show newItem
+        },
+        async onRetiredFood() {
+            // change store data to retired status
+            // this.item與store同源，會同步更改
+            this.item.status = "retired";
+            this.item.retiredDate = todayStr();
+            // call put (update backend DB), pic only need pic name.
+            let tempItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
+            tempItem.pic = removeImgPath(tempItem.pic);
+            var resp = await FoodService.updateFood(tempItem.id, tempItem);
+
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
         async onShowDialog(item) {
-            await this.dialogTrue(); // show dialog
+            // show dialog, use async let it can find item on dialog first, or it will show no defined.
+            await this.dialogTrue();
             this.item = item; // record choosen item
             // show data at dialog
             showFoodName.innerHTML = item.name; // js id mode
@@ -81,45 +135,13 @@ export default {
             // $("#showFoodName").text(item.name); // jquery mode
             // document.getElementById('showFoodName').innerHTML = item.name; // js mode
         },
-        onEditFood() {
-            this.edit = true; // show edit mode
-            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for edit
-        },
-        async onEditSave() {
-            // locate the item
-            let index = findIndexOfObj(this.$store.state.db.food,this.newItem);
-            // change store data
-            this.$store.state.db.food[index].name = this.newItem.name;
-            this.$store.state.db.food[index].purchaseDate = this.newItem.purchaseDate;
-            this.$store.state.db.food[index].expiryDate = this.newItem.expiryDate;
-            this.newItem.pic = removeImgPath(this.newItem.pic);
-            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
-
-            this.onCloseDialog();
-
-            // show snackbar
-            this.snackbar.snackbarText = this.$store.state.editText;
-            this.snackbar.snackbar = true;
-        },
-        async onRetiredFood() {
-            // change store data to retired status
-            // this.item與store同源，會同步更改
-            this.item.status = "retired";
-            this.item.retiredDate = this.today;
-            this.newItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
-            this.newItem.pic = removeImgPath(this.newItem.pic);
-            // call put (update backend DB)
-            var resp = await FoodService.updateFood(this.newItem.id, this.newItem);
-
-            this.onCloseDialog();
-
-            // show snackbar
-            this.snackbar.snackbarText = this.$store.state.retiredText;
-            this.snackbar.snackbar = true;
+        dialogTrue() {
+            this.dialog = true; // show dialog
         },
         onCloseDialog() {
             this.dialog = false;
             this.edit = false;
+            this.create = false;
         }
     }
 };

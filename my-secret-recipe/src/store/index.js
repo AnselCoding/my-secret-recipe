@@ -12,8 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     brand:"My Secret Recipe",
-    editText:"完成修改!",
-    retiredText:"完成刪除!",
+    requiredText:"請完成星號必填輸入!",
     db:{},
     // tools,
     // food,
@@ -27,11 +26,13 @@ export default new Vuex.Store({
       var response = await HomeService.getMySecretRecipe();
 
       // manage img path and Date formate
+      response.food.reverse();
       response.food.forEach(item => {
         item.pic = getImgPath('food',item.pic);
         item.expiryDate = item.expiryDate.YYYYMMDD();
         item.purchaseDate = item.purchaseDate.YYYYMMDD();
       });
+      response.tools.reverse();
       response.tools.forEach(item => {
         item.pic = getImgPath('tools',item.pic);
         item.purchaseDate = item.purchaseDate.YYYYMMDD();
@@ -39,6 +40,7 @@ export default new Vuex.Store({
       response.carousels.forEach(item => {
         item.pic = getImgPath('',item.pic);
       })
+      response.recipesM.reverse();
       response.recipesM.forEach(item => {
         item.headPic = getImgPath('recipes',item.headPic);
       });

@@ -1,8 +1,11 @@
 <template>
     <v-container class="containerBGC" id="tools">
         <v-row>
-            <v-col sm="10" offset-sm="1" md="8" offset-md="2">
+            <v-col sm="10" offset-sm="1" md="8" offset-md="2" class="d-flex align-center" >
                 <h3>用具清單 | Tools</h3>
+                <v-btn color="secondary" small text @click="onCreateTool" class="font-weight-black">
+                    新增
+                </v-btn>
             </v-col>
         </v-row>
         <v-row>
@@ -31,8 +34,8 @@
                 </v-row>
             </v-col>
         </v-row>
-        <ToolsDialog :snackbar="snackbar" :newTool="newTool" :dialog="dialog" :edit="edit" :onEditSave="onEditSave"
-            :onEditTools="onEditTools" :onRetiredTools="onRetiredTools" :onCloseDialog="onCloseDialog"></ToolsDialog>
+        <ToolsDialog :snackbar="snackbar" :newTool="newTool" :dialog="dialog" :edit="edit" :create="create" :onEditSave="onEditSave"
+        :onCreateSave="onCreateSave" :onEditTools="onEditTools" :onRetiredTools="onRetiredTools" :onCloseDialog="onCloseDialog"></ToolsDialog>
 
     </v-container>
 </template>
@@ -45,6 +48,7 @@ export default {
     data: () => ({
         dialog: false, // show dialog when it's true
         edit: false, // show edit mode when it's true
+        create: false, //show create mode when it's true
         tool: {}, // choosen item
         newTool: {}, // deep copy for edit
         snackbar: {
@@ -58,16 +62,67 @@ export default {
             // get a list of tools which are online
             return this.$store.state.db.tools.filter(x => x.status == "onLine");
         },
-        today() {
-            // for record retired date
-            let date = new Date();
-            let today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-            return today;
-        }
     },
     methods: {
-        dialogTrue() {
-            this.dialog = true;
+        async onCreateSave(){
+            let tempItem = this.newTool;
+            // check required value
+            if (tempItem.name == "" || tempItem.purchaseDate == "") {
+                // show snackbar
+                this.snackbar.snackbarText = this.$store.state.requiredText;
+                this.snackbar.snackbar = true;
+                return;
+            }
+
+            // save new item
+            var resp = await ToolsService.createTool(tempItem);
+            this.$store.state.db.tools.unshift(resp);
+            
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.create, this.snackbar);
+        },
+        async onCreateTool(){
+            await this.dialogTrue(); // show dialog
+            let tempItem = new Tool({});
+            tempItem.purchaseDate = tempItem.purchaseDate.YYYYMMDD();
+            this.newTool = tempItem; // update display
+            this.create = true; // show create mode
+        },
+        async onEditSave() {            
+            let tempItem = this.newTool;
+            // check required value
+            if (tempItem.name == "" || tempItem.purchaseDate == "") {
+                // show snackbar
+                this.snackbar.snackbarText = this.$store.state.requiredText;
+                this.snackbar.snackbar = true;
+                return;
+            }
+            // locate the item
+            let index = findIndexOfObj(this.$store.state.db.tools, tempItem);
+            // change store data
+            this.$store.state.db.tools[index].name = tempItem.name;
+            this.$store.state.db.tools[index].purchaseDate = tempItem.purchaseDate;
+            // call put (update backend DB), pic only need pic name.
+            tempItem.pic = removeImgPath(tempItem.pic);
+            var resp = await ToolsService.updateTool(tempItem.id, tempItem);
+
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.edit, this.snackbar);
+        },
+        onEditTools() {
+            this.edit = true; // show edit mode
+            this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for edit
+            //dialog edit mode show newTool
+        },
+        async onRetiredTools() {
+            // change store data to retired status
+            // this.item與store同源，會同步更改
+            this.tool.status = "retired";
+            this.tool.retiredDate = todayStr();
+            // call put (update backend DB), pic only need pic name.
+            let tempItem = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for remove
+            tempItem.pic = removeImgPath(tempItem.pic);
+            var resp = await ToolsService.updateTool(tempItem.id, tempItem);
+
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
         async onShowDialog(tool) {
             await this.dialogTrue(); // show dialog
@@ -78,41 +133,8 @@ export default {
             // $("#showToolName").text(tool.name); // jquery mode
             // document.getElementById('showToolName').innerHTML = tool.name; // js mode
         },
-        onEditTools() {
-            this.edit = true; // show edit mode
-            this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for edit
-        },
-        async onEditSave() {
-            // locate the item
-            let index = findIndexOfObj(this.$store.state.db.tools,this.newTool);
-            // change store data
-            this.$store.state.db.tools[index].name = this.newTool.name;
-            this.$store.state.db.tools[index].purchaseDate = this.newTool.purchaseDate;
-            // call put (update backend DB), pic only need pic name.
-            this.newTool.pic = removeImgPath(this.newTool.pic);
-            var resp = await ToolsService.updateTool(this.newTool.id, this.newTool);
-
-            this.onCloseDialog();
-
-            // show snackbar
-            this.snackbar.snackbarText = this.$store.state.editText;
-            this.snackbar.snackbar = true;
-        },
-        async onRetiredTools() {
-            // change store data to retired status
-            // this.item與store同源，會同步更改
-            this.tool.status = "retired";
-            this.tool.retiredDate = this.today;
-            this.newTool = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for remove
-            this.newTool.pic = removeImgPath(this.newTool.pic);
-            // call put (update backend DB)
-            var resp = await ToolsService.updateTool(this.newTool.id, this.newTool);
-
-            this.onCloseDialog();
-
-            // show snackbar
-            this.snackbar.snackbarText = this.$store.state.retiredText;
-            this.snackbar.snackbar = true;
+        dialogTrue() {
+            this.dialog = true;
         },
         onCloseDialog() {
             this.dialog = false;

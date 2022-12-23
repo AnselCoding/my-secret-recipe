@@ -36,3 +36,11 @@ export default {
   }
 };
 </script>
+
+<style>
+  /* Pseudo-elements (::) 虛擬元素 (css做html) */
+  .required label::after {
+    content: "*";
+    color: red;
+  }
+</style>

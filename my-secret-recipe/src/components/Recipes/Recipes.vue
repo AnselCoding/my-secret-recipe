@@ -123,11 +123,8 @@ export default {
             // change store data to retired status
             this.$store.state.db.recipesM[index].status = "retired";
             this.$store.state.db.recipesM[index].retiredDate = this.today;
-            this.onCloseDialog();
 
-            // show snackbar
-            this.snackbar.snackbarText = this.$store.state.retiredText;
-            this.snackbar.snackbar = true;
+            closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
         onCloseDialog() {
             this.dialog = false;

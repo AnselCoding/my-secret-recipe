@@ -134,11 +134,11 @@ class Carousel {
 class Food {
 	constructor(data){
 		this.id = initialNum(data.id);
-		this.status = initialStr(data.status);
+		this.status = "onLine";
 		this.name = initialStr(data.name);
 		this.purchaseDate = initialDate(data.purchaseDate);
 		this.expiryDate = initialDate(data.expiryDate);
-		this.retiredDate = initialDate(data.retiredDate);
+		this.retiredDate = null;
 		this.pic = initialStr(data.pic);
 	}
 }
@@ -173,10 +173,10 @@ class RecipesM {
 class Tool {
 	constructor(data){
 		this.id = initialNum(data.id);
-		this.status = initialStr(data.status);
+		this.status = "onLine";
 		this.name = initialStr(data.name);
 		this.purchaseDate = initialDate(data.purchaseDate);
-		this.retiredDate = initialDate(data.retiredDate);
+		this.retiredDate = null;
 		this.pic = initialStr(data.pic);
 	}
 }

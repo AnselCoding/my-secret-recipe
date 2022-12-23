@@ -14,8 +14,8 @@ export default [
 // CREATE TABLE [dbo].[Food]
 // (
 //     [Id] INT NOT NULL PRIMARY KEY IDENTITY(1,1), -- Primary Key column
-//     [Status] VARCHAR(50) NOT NULL,
-//     [Name] NVARCHAR(50) NOT NULL,
+//     [Status] VARCHAR(30) NOT NULL,
+//     [Name] NVARCHAR(30) NOT NULL,
 //     [PurchaseDate] DATE NOT NULL,
 //     [ExpiryDate] DATE NOT NULL,
 //     [RetiredDate] DATE NULL,
