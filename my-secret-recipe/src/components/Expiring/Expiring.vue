@@ -85,9 +85,17 @@ export default {
             this.$store.state.db.food[index].name = tempItem.name;
             this.$store.state.db.food[index].purchaseDate = tempItem.purchaseDate;
             this.$store.state.db.food[index].expiryDate = tempItem.expiryDate;
-            // call put (update backend DB), pic only need pic name.
-            tempItem.pic = removeImgPath(tempItem.pic);
-            var resp = await FoodService.updateFood(tempItem.id, tempItem);
+            // if it upload new pic change pic, or just leave it.
+            let formdata = new FormData();
+            let expiringPic = document.getElementById("expiringPic");
+            if (expiringPic.files.length > 0) {
+                formdata.append("imageFile", expiringPic.files[0]);
+                let picName = expiringPic.value.substr(expiringPic.value.lastIndexOf("\\")+1);
+                this.$store.state.db.food[index].pic = picName;
+                tempItem.pic = picName;
+            }
+            formdata.append("food",JSON.stringify(tempItem));
+            var resp = await FoodService.updateFood(tempItem.id, formdata);
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.edit, this.snackbar);
         },

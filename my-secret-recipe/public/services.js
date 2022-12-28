@@ -70,6 +70,21 @@ function fetchDelete(uri) {
 		});
 	});
 };
+
+function fetchPutMul(uri, value) {
+	return new Promise((resolve, reject) => {
+		fetch(`${apiServer}${uri}`, {
+				method: 'PUT',
+				body: value, //fetch傳遞form data，不用特別設定headers下的Content-Type
+		}).then((res) => {
+				return res;
+		}).then((res) => {
+				resolve(res); //回傳NoContent
+		}).catch((e) => {
+				reject(e);
+		});
+	});
+};
 //#endregion
   
 
@@ -88,7 +103,7 @@ function fetchDelete(uri) {
 
 class FoodService {
 	static updateFood(id, data){
-		return fetchPut(`/api/Food/${id}`,data);
+		return fetchPutMul(`/api/Food/${id}`,data);
 	}
 	static createFood(data){
 		return fetchPost(`/api/Food`, data);

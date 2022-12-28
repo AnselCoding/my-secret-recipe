@@ -41,6 +41,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles(); // open wwwroot for frontend
+
 app.UseCors();
 
 app.UseAuthorization();

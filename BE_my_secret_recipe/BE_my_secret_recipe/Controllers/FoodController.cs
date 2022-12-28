@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BE_my_secret_recipe.Models;
 using Microsoft.AspNetCore.Cors;
+using Newtonsoft.Json;
 
 namespace BE_my_secret_recipe.Controllers
 {
@@ -46,11 +47,27 @@ namespace BE_my_secret_recipe.Controllers
         // PUT: api/Food/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFood(int id, Food food)
+        public async Task<IActionResult> PutFood(int id)
         {
+            if (Request.Form.Keys.Count <= 0) { 
+                return BadRequest(); 
+            }
+
+            Food food = JsonConvert.DeserializeObject<Food>(Request.Form["food"]);
             if (id != food.Id)
             {
                 return BadRequest();
+            }
+
+            if (Request.Form.Files.Count > 0)
+            {
+                var imageFile = Request.Form.Files[0];
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Image") + "\\" + imageFile.FileName; //檔案存放位置
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    imageFile.CopyToAsync(stream);
+                }
             }
 
             _context.Entry(food).State = EntityState.Modified;
