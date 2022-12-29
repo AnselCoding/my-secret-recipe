@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BE_my_secret_recipe.Models;
 using Microsoft.AspNetCore.Cors;
+using Newtonsoft.Json;
 
 namespace BE_my_secret_recipe.Controllers
 {
@@ -46,11 +47,22 @@ namespace BE_my_secret_recipe.Controllers
         // PUT: api/Tools/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTool(int id, Tool tool)
+        public async Task<IActionResult> PutTool(int id, IFormCollection frm)
         {
+            if (frm.Keys.Count <= 0)
+            {
+                return BadRequest();
+            }
+
+            Tool tool = JsonConvert.DeserializeObject<Tool>(frm["tool"]);
             if (id != tool.Id)
             {
                 return BadRequest();
+            }
+
+            if (frm.Files.Count > 0)
+            {
+                Common.SaveFile(frm.Files[0], "tools");
             }
 
             _context.Entry(tool).State = EntityState.Modified;
@@ -77,8 +89,20 @@ namespace BE_my_secret_recipe.Controllers
         // POST: api/Tools
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Tool>> PostTool(Tool tool)
+        public async Task<ActionResult<Tool>> PostTool(IFormCollection frm)
         {
+            if (frm.Keys.Count <= 0)
+            {
+                return BadRequest();
+            }
+
+            Tool tool = JsonConvert.DeserializeObject<Tool>(frm["tool"]);
+
+            if (frm.Files.Count > 0)
+            {
+                Common.SaveFile(frm.Files[0], "tools");
+            }
+
             _context.Tools.Add(tool);
             await _context.SaveChangesAsync();
 

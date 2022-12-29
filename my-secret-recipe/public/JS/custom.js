@@ -6,6 +6,17 @@ const statusMode = Object.freeze({
 });
 //#endregion
 
+// pic field only need pic name, don't need path
+// frontend need server path
+// backend only need pic name
+function beforeSaveImage(obj){
+    let picName = removeImgPath(obj.inputPic.value);
+    // frontend need server path
+    obj.storePic = getImgPath(obj.pathFloder,picName) ;
+    // backend only need pic name
+    obj.tempPic = picName;
+}
+
 // after action done, close dialog and show snackbar
 function closeDialogShowSnackbar(closeDialog, mode, snackbar){
     closeDialog();
@@ -38,7 +49,12 @@ function findIndexOfObj(objs,obj){
 // pic only need pic name to save into Db
 // return string
 function removeImgPath(img){
-    let imgNameIndex = img.lastIndexOf("\\");
+    // data from server
+    let imgNameIndex = img.lastIndexOf("/");
+    // data from local upload
+    if (imgNameIndex == -1) {
+        imgNameIndex = img.lastIndexOf("\\");
+    }
     return img.slice(imgNameIndex+1);
 }
 // put on img path to fileName

@@ -47,27 +47,21 @@ namespace BE_my_secret_recipe.Controllers
         // PUT: api/Food/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFood(int id)
+        public async Task<IActionResult> PutFood(int id, IFormCollection frm)
         {
-            if (Request.Form.Keys.Count <= 0) { 
+            if (frm.Keys.Count <= 0) { 
                 return BadRequest(); 
             }
 
-            Food food = JsonConvert.DeserializeObject<Food>(Request.Form["food"]);
+            Food food = JsonConvert.DeserializeObject<Food>(frm["food"]);
             if (id != food.Id)
             {
                 return BadRequest();
             }
 
-            if (Request.Form.Files.Count > 0)
+            if (frm.Files.Count > 0)
             {
-                var imageFile = Request.Form.Files[0];
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Image\\food") + "\\" + imageFile.FileName; //檔案存放位置
-
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    imageFile.CopyToAsync(stream);
-                }
+                Common.SaveFile(frm.Files[0], "food");
             }
 
             _context.Entry(food).State = EntityState.Modified;
@@ -94,8 +88,20 @@ namespace BE_my_secret_recipe.Controllers
         // POST: api/Food
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Food>> PostFood(Food food)
+        public async Task<ActionResult<Food>> PostFood(IFormCollection frm)
         {
+            if (frm.Keys.Count <= 0)
+            {
+                return BadRequest();
+            }
+
+            Food food = JsonConvert.DeserializeObject<Food>(frm["food"]);
+
+            if (frm.Files.Count > 0)
+            {
+                Common.SaveFile(frm.Files[0], "food");
+            }
+
             _context.Foods.Add(food);
             await _context.SaveChangesAsync();
 

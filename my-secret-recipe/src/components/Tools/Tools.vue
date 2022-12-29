@@ -59,6 +59,12 @@ export default {
             snackbarText: '', // snackbar message
             timeout: 2000 // duration
         },
+        refParameter:{ // for beforeSaveImage() function
+            pathFloder:"tools",
+            inputPic: null,
+            storePic: "", 
+            tempPic: ""
+        }
     }),
     computed: {
         tools() {
@@ -76,10 +82,22 @@ export default {
                 this.snackbar.snackbar = true;
                 return;
             }
-
+            // if it upload new pic change pic, or just leave it.
+            let formdata = new FormData();
+            let toolPic = document.getElementById("toolPic");
+            if (toolPic.files.length > 0) {
+                formdata.append("imageFile", toolPic.files[0]);
+                // pic field only need pic name, don't need path
+                let refParameter = this.refParameter;
+                refParameter.inputPic = toolPic;
+                beforeSaveImage(refParameter);
+                tempItem.pic = refParameter.tempPic;
+            }
+            formdata.append("tool",JSON.stringify(tempItem));
             // save new item
-            var resp = await ToolsService.createTool(tempItem);
+            var resp = await ToolsService.createTool(formdata);
             resp.purchaseDate = resp.purchaseDate.YYYYMMDD();
+            resp.pic = getImgPath("tools",resp.pic);
             this.$store.state.db.tools.unshift(resp);
             
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.create, this.snackbar);
@@ -105,9 +123,22 @@ export default {
             // change store data
             this.$store.state.db.tools[index].name = tempItem.name;
             this.$store.state.db.tools[index].purchaseDate = tempItem.purchaseDate;
-            // call put (update backend DB), pic only need pic name.
-            tempItem.pic = removeImgPath(tempItem.pic);
-            var resp = await ToolsService.updateTool(tempItem.id, tempItem);
+            // if it upload new pic change pic, or just leave it.
+            let formdata = new FormData();
+            let toolPic = document.getElementById("toolPic");
+            if (toolPic.files.length > 0) {
+                formdata.append("imageFile", toolPic.files[0]);
+                // pic field only need pic name, don't need path
+                let refParameter = this.refParameter;
+                refParameter.inputPic = toolPic;
+                beforeSaveImage(refParameter);
+                this.$store.state.db.tools[index].pic = refParameter.storePic;
+                tempItem.pic = refParameter.tempPic;
+            }else{
+                tempItem.pic = removeImgPath(tempItem.pic);
+            }
+            formdata.append("tool",JSON.stringify(tempItem));
+            var resp = await ToolsService.updateTool(tempItem.id, formdata);
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.edit, this.snackbar);
         },
@@ -124,7 +155,9 @@ export default {
             // call put (update backend DB), pic only need pic name.
             let tempItem = JSON.parse(JSON.stringify(this.tool)); // deep copy choosen item for remove
             tempItem.pic = removeImgPath(tempItem.pic);
-            var resp = await ToolsService.updateTool(tempItem.id, tempItem);
+            let formdata = new FormData();
+            formdata.append("tool",JSON.stringify(tempItem));
+            var resp = await ToolsService.updateTool(tempItem.id, formdata);
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },

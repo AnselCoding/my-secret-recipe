@@ -31,7 +31,7 @@
                                 <v-date-picker v-model="newItem.expiryDate" @input="menu2 = false"></v-date-picker>
                             </v-menu>
                         </v-col>
-                        <v-col cols="12" class="pb-0 required">
+                        <v-col cols="12" class="pb-0">
                             <v-file-input
                             id="expiringPic"
                             :rules="rules.avatarRules"

@@ -71,6 +71,21 @@ function fetchDelete(uri) {
 	});
 };
 
+function fetchPostMul(uri, value) {
+	return new Promise((resolve, reject) => {
+		fetch(`${apiServer}${uri}`, {
+				method: 'POST',
+				body: value, //fetch傳遞form data，不用特別設定headers下的Content-Type
+		}).then((res) => {
+				return res.json();
+		}).then((res) => {
+				resolve(res);
+		}).catch((e) => {
+				reject(e);
+		});
+	});
+};
+
 function fetchPutMul(uri, value) {
 	return new Promise((resolve, reject) => {
 		fetch(`${apiServer}${uri}`, {
@@ -106,7 +121,7 @@ class FoodService {
 		return fetchPutMul(`/api/Food/${id}`,data);
 	}
 	static createFood(data){
-		return fetchPost(`/api/Food`, data);
+		return fetchPostMul(`/api/Food`, data);
 	}
 }
 
@@ -127,10 +142,10 @@ class RecipesService {
 
 class ToolsService {
 	static updateTool(id, data){
-		return fetchPut(`/api/Tools/${id}`,data)
+		return fetchPutMul(`/api/Tools/${id}`,data)
 	}
 	static createTool(data){
-		return fetchPost(`/api/Tools`, data);
+		return fetchPostMul(`/api/Tools`, data);
 	}
 }
 //#endregion

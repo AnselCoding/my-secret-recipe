@@ -31,6 +31,20 @@
                                 <v-date-picker v-model="newItem.expiryDate" @input="menu2 = false"></v-date-picker>
                             </v-menu>
                         </v-col>
+                        <v-col cols="12" class="pb-0">
+                            <v-file-input
+                            id="foodPic"
+                            :rules="rules.avatarRules"
+                            accept="image/png, image/jpeg"
+                            placeholder="Pick a picture"
+                            prepend-icon="mdi-camera"
+                            label="圖片"
+                            @change="uploadImage"
+                            ></v-file-input>
+                        </v-col>
+                        <v-col>
+                            <v-img aspect-ratio="2" :src="previewImage"></v-img>
+                        </v-col>
                     </v-row>
                     <ol v-else class="pt-3">
                         <li>食品名稱：<span id="showFoodName"></span></li>
@@ -44,12 +58,12 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <div v-if="create">
-                        <v-btn color="secondary" text @click="onCreateSave">
+                        <v-btn color="secondary" text @click="onCreateSave(); cleanPreImage();">
                             儲存
                         </v-btn>
                     </div>
                     <div v-if="edit">
-                        <v-btn color="secondary" text @click="onEditSave">
+                        <v-btn color="secondary" text @click="onEditSave(); cleanPreImage();">
                             儲存
                         </v-btn>
                     </div>
@@ -61,7 +75,7 @@
                             刪除
                         </v-btn>
                     </div>
-                    <v-btn color="secondary" text @click="onCloseDialog">
+                    <v-btn color="secondary" text @click="onCloseDialog(); cleanPreImage();">
                         取消
                     </v-btn>
                 </v-card-actions>
@@ -88,6 +102,7 @@ export default {
         onCloseDialog: Function,
     },
     data: () => ({
+        previewImage: null, // preview image value
         // for datepicker
         menu: false,
         menu2: false,
@@ -98,8 +113,29 @@ export default {
             ],
             dateRules:[
                 value => !!value || 'Required.',
-            ]
-        }        
+            ],
+            avatarRules:[
+                value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
+            ] 
+        }    
     }),
+    methods:{
+        uploadImage(e){
+            // clean previewImage when it clean attached image.
+            if(!e){
+                this.previewImage = null;
+                return;
+            }
+            // preview attached image
+            const reader = new FileReader();
+            reader.readAsDataURL(e);
+            reader.onload = e =>{
+                this.previewImage = e.target.result;
+            };
+        },
+        cleanPreImage(){
+            this.previewImage = null;
+        }
+    }
 }
 </script>

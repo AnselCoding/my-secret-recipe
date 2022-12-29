@@ -58,6 +58,12 @@ export default {
             snackbarText: '', // snackbar message
             timeout: 2000 // duration
         },
+        refParameter: { // for beforeSaveImage() function
+            pathFloder:"food",
+            inputPic: null, 
+            storePic: "", 
+            tempPic: ""
+        },
     }),
     computed: {
         food() {
@@ -75,11 +81,23 @@ export default {
                 this.snackbar.snackbar = true;
                 return;
             }
-
+            // if it upload new pic change pic, or just leave it.
+            let formdata = new FormData();
+            let foodPic = document.getElementById("foodPic");
+            if (foodPic.files.length > 0) {
+                formdata.append("imageFile", foodPic.files[0]);
+                // pic field only need pic name, don't need path
+                let refParameter = this.refParameter;
+                refParameter.inputPic = foodPic;
+                beforeSaveImage(refParameter);
+                tempItem.pic = refParameter.tempPic;
+            }
+            formdata.append("food",JSON.stringify(tempItem));
             // save new item
-            var resp = await FoodService.createFood(tempItem);
+            var resp = await FoodService.createFood(formdata);
             resp.purchaseDate = resp.purchaseDate.YYYYMMDD();
             resp.expiryDate = resp.expiryDate.YYYYMMDD();
+            resp.pic = getImgPath("food",resp.pic);
             this.$store.state.db.food.unshift(resp);
             
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.create, this.snackbar);
@@ -107,9 +125,22 @@ export default {
             this.$store.state.db.food[index].name = tempItem.name;
             this.$store.state.db.food[index].purchaseDate = tempItem.purchaseDate;
             this.$store.state.db.food[index].expiryDate = tempItem.expiryDate;
-            // call put (update backend DB), pic only need pic name.
-            tempItem.pic = removeImgPath(tempItem.pic);
-            var resp = await FoodService.updateFood(tempItem.id, tempItem);
+            // if it upload new pic change pic, or just leave it.
+            let formdata = new FormData();
+            let foodPic = document.getElementById("foodPic");
+            if (foodPic.files.length > 0) {
+                formdata.append("imageFile", foodPic.files[0]);
+                // pic field only need pic name, don't need path
+                let refParameter = this.refParameter;
+                refParameter.inputPic = foodPic;
+                beforeSaveImage(refParameter);
+                this.$store.state.db.food[index].pic = refParameter.storePic;
+                tempItem.pic = refParameter.tempPic;
+            }else{
+                tempItem.pic = removeImgPath(tempItem.pic);
+            }
+            formdata.append("food",JSON.stringify(tempItem));
+            var resp = await FoodService.updateFood(tempItem.id, formdata);
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.edit, this.snackbar);
         },
@@ -126,7 +157,9 @@ export default {
             // call put (update backend DB), pic only need pic name.
             let tempItem = JSON.parse(JSON.stringify(this.item)); // deep copy choosen item for remove
             tempItem.pic = removeImgPath(tempItem.pic);
-            var resp = await FoodService.updateFood(tempItem.id, tempItem);
+            let formdata = new FormData();
+            formdata.append("food",JSON.stringify(tempItem));
+            var resp = await FoodService.updateFood(tempItem.id, formdata);
 
             closeDialogShowSnackbar(this.onCloseDialog, statusMode.retired, this.snackbar);
         },
