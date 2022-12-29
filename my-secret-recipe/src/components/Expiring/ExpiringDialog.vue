@@ -7,7 +7,7 @@
                 </v-card-title>
 
                 <v-card-text>
-                    <v-row v-if="edit || create">
+                    <v-row v-if="edit">
                         <v-col cols="12" class="pb-0 required">
                             <v-text-field v-model="newItem.name" label="食品名稱" :rules="rules.nameRules" autofocus></v-text-field>
                         </v-col>
@@ -57,17 +57,12 @@
 
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <div v-if="create">
-                        <v-btn color="secondary" text @click="onCreateSave">
-                            儲存
-                        </v-btn>
-                    </div>
                     <div v-if="edit">
-                        <v-btn color="secondary" text @click="onEditSave">
+                        <v-btn color="secondary" text @click="onEditSave(); cleanPreImage();">
                             儲存
                         </v-btn>
                     </div>
-                    <div  v-if="!create && !edit">
+                    <div v-else>
                         <v-btn color="secondary" text @click="onEditFood">
                             修改
                         </v-btn>
@@ -75,7 +70,7 @@
                             刪除
                         </v-btn>
                     </div>
-                    <v-btn color="secondary" text @click="onCloseDialog">
+                    <v-btn color="secondary" text @click="onCloseDialog(); cleanPreImage();">
                         取消
                     </v-btn>
                 </v-card-actions>
@@ -94,8 +89,6 @@ export default {
         newItem: Object,
         dialog: Boolean,
         edit: Boolean,
-        create: Boolean,
-        onCreateSave: Function,
         onEditSave: Function,
         onEditFood: Function,
         onConfirmRetire: Function,
@@ -132,6 +125,9 @@ export default {
             reader.onload = e =>{
                 this.previewImage = e.target.result;
             };
+        },
+        cleanPreImage(){
+            this.previewImage = null;
         }
     }
 }

@@ -41,7 +41,6 @@
 </template>
 <script>
 import ExpiringDialog from './ExpiringDialog.vue';
-// import FoodDialog from '../Food/FoodDialog.vue';
 import ConfirmDialog from '../Common/ConfirmDialog.vue';
 export default {
     name: "Expiring",
@@ -90,9 +89,13 @@ export default {
             let expiringPic = document.getElementById("expiringPic");
             if (expiringPic.files.length > 0) {
                 formdata.append("imageFile", expiringPic.files[0]);
-                let picName = expiringPic.value.substr(expiringPic.value.lastIndexOf("\\")+1);
-                this.$store.state.db.food[index].pic = picName;
+                // pic field only need pic name, don't need path
+                // let picName = expiringPic.value.substr(expiringPic.value.lastIndexOf("\\")+1);
+                let picName = removeImgPath(expiringPic.value);
+                this.$store.state.db.food[index].pic = getImgPath("food",picName) ;
                 tempItem.pic = picName;
+            }else{
+                tempItem.pic = removeImgPath(tempItem.pic);
             }
             formdata.append("food",JSON.stringify(tempItem));
             var resp = await FoodService.updateFood(tempItem.id, formdata);
@@ -136,7 +139,6 @@ export default {
             this.confirmDialog = false;
             this.dialog = false;
             this.edit = false;
-            this.create = false;
         }
     }
 }

@@ -62,7 +62,7 @@ namespace BE_my_secret_recipe.Controllers
             if (Request.Form.Files.Count > 0)
             {
                 var imageFile = Request.Form.Files[0];
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Image") + "\\" + imageFile.FileName; //檔案存放位置
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Image\\food") + "\\" + imageFile.FileName; //檔案存放位置
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
