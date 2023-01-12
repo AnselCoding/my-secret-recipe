@@ -23,27 +23,6 @@ namespace BE_my_secret_recipe.Controllers
             _context = context;
         }
 
-        //// GET: api/Tools
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Tool>>> GetTools()
-        //{
-        //    return await _context.Tools.ToListAsync();
-        //}
-
-        ////GET: api/Tools/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Tool>> GetTool(int id)
-        //{
-        //    var tool = await _context.Tools.FindAsync(id);
-
-        //    if (tool == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return tool;
-        //}
-
         // PUT: api/Tools/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

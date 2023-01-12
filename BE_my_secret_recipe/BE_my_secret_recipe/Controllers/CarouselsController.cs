@@ -20,27 +20,6 @@ namespace BE_my_secret_recipe.Controllers
             _context = context;
         }
 
-        //// GET: api/Carousels
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Carousel>>> GetCarousels()
-        //{
-        //    return await _context.Carousels.ToListAsync();
-        //}
-
-        //// GET: api/Carousels/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Carousel>> GetCarousel(int id)
-        //{
-        //    var carousel = await _context.Carousels.FindAsync(id);
-
-        //    if (carousel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return carousel;
-        //}
-
         // PUT: api/Carousels/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
