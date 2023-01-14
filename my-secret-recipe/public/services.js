@@ -1,102 +1,86 @@
 const apiServer = "https://localhost:7035";
 
 //#region fetch api
+// If "status" attribute can be found in return, it's not a success response.
 function fetchGet(uri) {
 	return new Promise((resolve, reject) => {
 		fetch(`${apiServer}${uri}`, {
-				method: 'GET',
-				headers: {
-						'Content-Type': 'application/json'
-				}
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		}).then((res) => {
-				return res.json();
-		}).then((res) => {
-				resolve(res);
+			resolve(res.json());
 		}).catch((e) => {
-				reject(e);
+			reject(e);
 		});
 	});
 };
-  
 function fetchPost(uri, value) {
 	return new Promise((resolve, reject) => {
 		fetch(`${apiServer}${uri}`, {
-				method: 'POST',
-				body: JSON.stringify(value),
-				headers: {
-						'Content-Type': 'application/json'
-				}
+			method: 'POST',
+			body: JSON.stringify(value),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		}).then((res) => {
-				return res.json();
-		}).then((res) => {
-				resolve(res);
+			resolve(res.json());
 		}).catch((e) => {
-				reject(e);
+			reject(e);
 		});
 	});
 };
-
 function fetchPut(uri, value) {
 	return new Promise((resolve, reject) => {
 		fetch(`${apiServer}${uri}`, {
-				method: 'PUT',
-				body: JSON.stringify(value),
-				headers: {
-						'Content-Type': 'application/json'
-				}
+			method: 'PUT',
+			body: JSON.stringify(value),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		}).then((res) => {
-				return res;
-		}).then((res) => {
-				resolve(res); //回傳NoContent
+			resolve(res); //回傳NoContent
 		}).catch((e) => {
-				reject(e);
+			reject(e);
 		});
 	});
 };
-
 function fetchDelete(uri) {
 	return new Promise((resolve, reject) => {
 		fetch(`${apiServer}${uri}`, {
-				method: 'DELETE',
-				headers: {
-						'Content-Type': 'application/json'
-				}
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		}).then((res) => {
-				return res;
-		}).then((res) => {
-				resolve(res); //回傳NoContent
+			resolve(res); //回傳NoContent
 		}).catch((e) => {
-				reject(e);
+			reject(e);
 		});
 	});
 };
-
 function fetchPostMul(uri, value) {
 	return new Promise((resolve, reject) => {
 		fetch(`${apiServer}${uri}`, {
-				method: 'POST',
-				body: value, //fetch傳遞form data，不用特別設定headers下的Content-Type
+			method: 'POST',
+			body: value, //fetch傳遞form data，不用特別設定headers下的Content-Type
 		}).then((res) => {
-				return res.json();
-		}).then((res) => {
-				resolve(res);
+			resolve(res.json());
 		}).catch((e) => {
-				reject(e);
+			reject(e);
 		});
 	});
 };
-
 function fetchPutMul(uri, value) {
 	return new Promise((resolve, reject) => {
 		fetch(`${apiServer}${uri}`, {
-				method: 'PUT',
-				body: value, //fetch傳遞form data，不用特別設定headers下的Content-Type
+			method: 'PUT',
+			body: value, //fetch傳遞form data，不用特別設定headers下的Content-Type
 		}).then((res) => {
-				return res;
-		}).then((res) => {
-				resolve(res); //回傳NoContent
+			resolve(res); //回傳NoContent
 		}).catch((e) => {
-				reject(e);
+			reject(e);
 		});
 	});
 };
